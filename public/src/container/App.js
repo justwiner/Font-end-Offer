@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
+import {Foot, Head} from '../components'
+import './index.scss'
 
 class App extends Component {
   render () {
     return (
-      <div>My App</div>
+      <div id="app">
+        <Head />
+        <Foot />
+      </div>
     )
   }
 }
