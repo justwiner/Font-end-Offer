@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import './index.scss'
 
-class Head extends Component {
+class Questions extends Component {
   render () {
     return (
-      <footer>footer</footer>
+      <section>Questions</section>
     )
   }
 }
 
-export default Head
+export default Questions
