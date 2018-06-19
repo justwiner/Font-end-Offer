@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+import {Dropdown, Menu, Icon} from 'antd'
 import './index.scss'
 
 class Foot extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      user: null,
+      user: {
+        name: 'winer',
+        img: 'http://img3.duitang.com/uploads/item/201406/18/20140618173830_eH4a4.jpeg'
+      },
       currentMenu: '/'
     }
   }
@@ -51,10 +55,27 @@ class Foot extends Component {
   changeMenu (path) {
     this.setState({ currentMenu: path })
   }
+  userMenus () {
+    const style = {
+      marginLeft: '1vw'
+    }
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <Icon type="user" /><span style={style}>个人中心</span>
+        </Menu.Item>
+        <Menu.Item>
+          <Icon type="logout" /><span style={style}>退出</span>
+        </Menu.Item>
+      </Menu>
+    );
+    return menu
+  }
   render () {
     const { user } = this.state
     return (
       <header className="head" style={{background: 'rgba(61,68,76,0.9)'}}>
+        <div>LOGO</div>
         {
           this.menuItems()
         }
@@ -66,9 +87,12 @@ class Foot extends Component {
                 <span>注 册</span>
               </div>
             ) : (
-              <div>
-                <span>{user.name}</span>
-              </div>
+              <Dropdown overlay={this.userMenus()} placement="bottomLeft">
+                <div className="login">
+                  <img src={user.img} alt="头像"/>
+                  <span>{user.name}</span>
+                </div>
+              </Dropdown>
             )
           }
         </div>
