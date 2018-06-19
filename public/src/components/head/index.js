@@ -7,10 +7,7 @@ class Foot extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      user: {
-        name: 'winer',
-        img: 'http://img3.duitang.com/uploads/item/201406/18/20140618173830_eH4a4.jpeg'
-      },
+      user: null,
       currentMenu: '/'
     }
   }
@@ -72,7 +69,7 @@ class Foot extends Component {
     return menu
   }
   render () {
-    const { user, currentMenu } = this.state
+    const { user } = this.state
     let style = {background: 'rgba(61,68,76,0.9)'}
     return (
       <header className="head" style={style}>
@@ -89,7 +86,7 @@ class Foot extends Component {
               </div>
             ) : (
               <Dropdown overlay={this.userMenus()} placement="bottomLeft">
-                <div className="login">
+                <div className="login" title={user.name}>
                   <img src={user.img} alt="头像"/>
                   <span>{user.name}</span>
                 </div>

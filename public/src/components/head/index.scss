@@ -81,6 +81,10 @@
     }
     span {
       cursor: pointer;
+      width: 6vw;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
   }
 }
