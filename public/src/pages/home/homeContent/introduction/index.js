@@ -37,7 +37,7 @@ const intr = [
 class Introduction extends Component {
   render () {
     return (
-      <div className="header-content-intr">
+      <section className="header-content-intr">
         <font>希望能够满足你的需求</font>
         <div className="header-content-intr-circle">
           {
@@ -54,7 +54,7 @@ class Introduction extends Component {
             })
           }
         </div>
-      </div>
+      </section>
     )
   }
 }
