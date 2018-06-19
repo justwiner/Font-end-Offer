@@ -30,7 +30,7 @@ class Foot extends Component {
       },
       {
         path: '/upload',
-        title: '上传高质量题目'
+        title: '上传'
       },
       {
         path: '/about',
@@ -72,9 +72,10 @@ class Foot extends Component {
     return menu
   }
   render () {
-    const { user } = this.state
+    const { user, currentMenu } = this.state
+    let style = {background: 'rgba(61,68,76,0.9)'}
     return (
-      <header className="head" style={{background: 'rgba(61,68,76,0.9)'}}>
+      <header className="head" style={style}>
         <div>LOGO</div>
         {
           this.menuItems()
