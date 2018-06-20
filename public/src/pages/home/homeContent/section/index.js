@@ -14,7 +14,7 @@ class Section extends Component {
             <div>
               <div className="home-content-section-content home-content-section-content">
                 <article>
-                  <font borderColor='red' style={fontStyle}>{title}</font>{font}
+                  <font style={fontStyle}>{title}</font>{font}
                 </article>
                 <p>{info}</p>
                 <ul>
@@ -34,7 +34,7 @@ class Section extends Component {
               <img className="home-content-section-img  home-content-section-right" src={img} alt="宣传图"/>
               <div className="home-content-section-content home-content-section-content">
                 <article>
-                  <font borderColor='red' style={fontStyle}>{title}</font>{font}
+                  <font style={fontStyle}>{title}</font>{font}
                 </article>
                 <p>{info}</p>
                 <ul>
