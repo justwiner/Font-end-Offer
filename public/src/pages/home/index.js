@@ -4,7 +4,7 @@ import {Introduction, Section} from './homeContent'
 import './index.scss'
 import Fast from '../../asset/fast.png'
 import Flexible from '../../asset/flexible.png'
-import TimeSave from '../../asset/time-save.png'
+import TimeSave from '../../asset/save.png'
 import Free from '../../asset/free.png'
 
 const ad = [
