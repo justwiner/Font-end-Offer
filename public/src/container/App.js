@@ -3,8 +3,14 @@ import {Foot, Head} from '../components'
 import {BrowserRouter, Route} from 'react-router-dom'
 import {Home, About , Upload , Questions} from '../pages'
 import './index.scss'
+import {connect} from 'react-redux'
+import Actions from '../actions'
+import {bindActionCreators} from 'redux'
 
 class App extends Component {
+  componentWillMount () {
+    console.log(this.props)
+  }
   render () {
     return (
       <BrowserRouter>
@@ -21,4 +27,16 @@ class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    chapters: state.question.chapters
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

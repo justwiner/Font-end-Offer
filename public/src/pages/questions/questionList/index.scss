@@ -1,3 +1,18 @@
 .questions-list {
   margin-top: 10vw;
+  .question-allQuestions {
+    display: flex;
+    .question-allQuestions-menus {
+      width: 25vw;
+      margin-right: 10vw;
+      article {
+        padding-bottom: .5vw;
+        border-bottom: 1px solid lightgrey;
+        margin-bottom: 1vw;
+      }
+    }
+    .question-allQuestions-list {
+      width: 65vw
+    }
+  }
 }
