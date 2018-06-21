@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Foot, Head} from '../components'
 import {BrowserRouter, Route} from 'react-router-dom'
-import {Home, About , Upload , Questions} from '../pages'
+import {Home, About , Upload , Questions, Register} from '../pages'
 import './index.scss'
 import {connect} from 'react-redux'
 import Actions from '../actions'
@@ -17,9 +17,10 @@ class App extends Component {
         <Route path="/upload" component = {Upload}/>
         <Route path="/about" component = {About}/>
         <Route path="/questions" component = {Questions}/>
+        <Route exact path="/register" component={Register} />
         <Foot />
       </div>
-      </ BrowserRouter>
+      </BrowserRouter>
     )
   }
 }

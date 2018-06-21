@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import {Dropdown, Menu, Icon, Modal, Button, Input} from 'antd'
+import {Dropdown, Menu, Icon, Modal, Input} from 'antd'
 import './index.scss'
 
-class Foot extends Component {
+class Head extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -123,7 +123,7 @@ class Foot extends Component {
             user.token === null ? (
               <div className="no-login">
                 <span onClick={this.showModal}>登 录</span>
-                <span>注 册</span>
+                <Link to="/register"><span>注 册</span></Link>
               </div>
             ) : (
               <Dropdown overlay={this.userMenus()} placement="bottomLeft">
@@ -154,4 +154,4 @@ class Foot extends Component {
   }
 }
 
-export default Foot
+export default Head

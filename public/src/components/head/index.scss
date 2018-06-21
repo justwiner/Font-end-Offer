@@ -7,6 +7,8 @@
   position: fixed;
   color: white;
   padding: 1vw 10vw;
+  top:0;
+  left: 0;
   z-index: 10;
   ul {
     padding: 0;
@@ -51,12 +53,12 @@
       background: #219A96;
       border-color: #219A96;
     }
-    span:nth-child(2) {
+    a span:nth-child(1) {
       background: transparent;
       border-color: #28BEB8;
       color: #FFF;
     }
-    span:nth-child(2):hover {
+    a span:nth-child(1):hover {
       background: white;
       border-color: white;
       color: black;
