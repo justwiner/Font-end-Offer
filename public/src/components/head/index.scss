@@ -89,6 +89,31 @@
   }
 }
 
+.login-center-modal {
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0;
+  .ant-modal {
+    display: inline-block;
+    vertical-align: middle;
+    top: 0;
+    text-align: left;
+  }
+  .ant-modal-header {
+    text-align: center;
+    .ant-modal-title {
+      font-size: 1vw;
+    }
+  }
+}
+.login-center-modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
 @keyframes header-ul {
   from {
     border-color: transparent;

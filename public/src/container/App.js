@@ -8,14 +8,11 @@ import Actions from '../actions'
 import {bindActionCreators} from 'redux'
 
 class App extends Component {
-  componentWillMount () {
-    console.log(this.props)
-  }
   render () {
     return (
       <BrowserRouter>
       <div id="app">
-        <Head />
+        <Head {...this.props}/>
         <Route exact path="/" component = {Home}/>
         <Route path="/upload" component = {Upload}/>
         <Route path="/about" component = {About}/>
@@ -29,7 +26,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    chapters: state.question.chapters
+    chapters: state.question.chapters,
+    user: state.user
   }
 }
 
