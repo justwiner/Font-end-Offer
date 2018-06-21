@@ -29,3 +29,22 @@ a:focus {
 ::-webkit-scrollbar-thumb:hover {
   background-color:#bbb;
 }
+
+
+.ant-btn:hover {
+  border-color: #28BEB8;
+  color: #28BEB8;
+}
+.ant-btn-primary{
+  background: #28BEB8;
+  border-color: #28BEB8;
+  color: white;
+}
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  background: #219A96;
+  border-color: #219A96;
+  color: white;
+}
+.ant-input:focus, .ant-input:hover {
+  border-color: #28BEB8;
+}
