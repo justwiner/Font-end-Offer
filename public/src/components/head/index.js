@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import {Dropdown, Menu, Icon, Modal, Input} from 'antd'
+import {Dropdown, Menu, Icon, Modal, Input, message} from 'antd'
+import {Service} from '../../lib'
 import './index.scss'
 
 class Head extends Component {
@@ -10,14 +11,13 @@ class Head extends Component {
       currentMenu: '/',
       visible: false,
       confirmLoading: false,
-      account: '',
+      eMail: '',
       password: '',
       key: 1
     }
   }
   componentWillMount = () => {
     this.setState({currentMenu: window.location.pathname})
-    console.log(this.props.user)
   }
   menuItems = () => {
     const {pathname} = this.state
@@ -79,31 +79,30 @@ class Head extends Component {
       visible: true,
     });
   }
-  handleOk = () => {
-    const { account, password } = this.state
-    this.setState({
-      confirmLoading: true,
-    });
-    setTimeout(() => {
-      console.log(this.props)
-      this.props.actions.login({ account, password })
-      this.setState({
-        confirmLoading: false,
-      })
+  handleOk = async () => {
+    const { eMail, password } = this.state
+    this.setState({confirmLoading: true});
+    const data = (await Service.login({ eMail, password })).data
+    if (data.success) {
+      message.success(data.message)
+      this.props.actions.login(data)
       this.handleCancel()
-    }, 2000);
+    } else {
+      message.error(data.message)
+    }
+    this.setState({confirmLoading: false})
   }
   handleCancel = () => {
     this.setState({
       visible: false,
-      account: '',
+      eMail: '',
       password: '',
       key: Math.random()
     })
   }
 
-  inputAccount = e => {
-    this.setState({ account: e.target.value })
+  inputeMail = e => {
+    this.setState({ eMail: e.target.value })
   }
   inputPassword = e => {
     this.setState({ password: e.target.value })
@@ -120,7 +119,7 @@ class Head extends Component {
         }
         <div>
           {
-            user.token === null ? (
+            user.avatar === null || user.avatar === undefined || user.avatar === '' ? (
               <div className="no-login">
                 <span onClick={this.showModal}>登 录</span>
                 <Link to="/register"><span>注 册</span></Link>
@@ -145,7 +144,7 @@ class Head extends Component {
           okText="确认登录"
           key={key}
         >
-          <p><Input size="large" onChange={this.inputAccount} placeholder="请输入邮箱" /></p>
+          <p><Input size="large" onChange={this.inputeMail} placeholder="请输入邮箱" /></p>
           <br/>
           <p><Input size="large" type="password" onChange={this.inputPassword} placeholder="请输入密码" /></p>
         </Modal>

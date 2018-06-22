@@ -1,14 +1,19 @@
 import * as ActionTypes from '../constants/ActionTypes'
+import {Cookie,Config} from '../lib'
 
 export const login = (data) => {
   console.log(data)
+  const { nickName, avatar, eMail } = data.user
+  const id = data.user._id
+  const token = data.token
   const user = {
-    id: 1,
-    nickName: 'winer',
-    avatar: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2970597459,3762914954&fm=58&bpow=705&bpoh=675',
-    token: '6ONWsjip0QIZ8tyhnq'
+    id,
+    nickName,
+    avatar,
+    token
   }
-  localStorage.setItem('user', JSON.stringify(user))
+  Cookie.set('user', JSON.stringify({id,nickName,avatar}), Config.cookies.userInfo)
+  Cookie.set('token', token, Config.cookies.token)
   return {
     type: ActionTypes.LOGIN,
     user
@@ -16,6 +21,7 @@ export const login = (data) => {
 }
 
 export const logout = () => {
-  localStorage.removeItem('user')
+  Cookie.delete('user')
+  Cookie.delete('token')
   return {type: ActionTypes.LOGOUT}
 }

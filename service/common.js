@@ -17,13 +17,13 @@ let CommonService = ( ()=> {
         if ( !result ) {
           return { success: false, message: '邮箱与密码不匹配!' }
         }
-        const { nickName, avatar } = user
+        const { nickName, avatar, _id } = user
         const token = jwt.sign({nickName, eMail: user.eMail}, config.tokenSet.jwtsecret, {expiresIn : config.tokenSet.time});
         return { 
           success: true, 
           message: '登录成功!',
           token,
-          user: { nickName, avatar, eMail }
+          user: { nickName, avatar, eMail, _id }
         }
       } catch (e) {
         console.log(e)

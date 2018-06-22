@@ -1,17 +1,20 @@
 const express = require('express')
 const createError = require('http-errors')
 const cookieParser = require('cookie-parser')
-const passport = require('passport')
-const config = require('./config')
 const jwt = require('jsonwebtoken')
+// const passport = require('passport')
 // const Strategy = require('passport-http-bearer').Strategy
 
+const config = require('./config')
 const port = process.env.PORT || config.network.port;
 const commonRouter = require('./routes/common')
 const userRouter = require('./routes/user')
 
 const app = express()
 
+/*
+  跨域配置：响应头允许跨域
+*/
 app.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -20,13 +23,17 @@ app.all('*', (req, res, next) => {
   next();
 })
 
-app.use(passport.initialize())
+// 
+
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use('/api/common', commonRouter)
 
+/*
+  common的API不需要登录即可使用
+*/
+app.use('/api/common', commonRouter)
 /*
   API路由处理：拦截验证JWT
 */
@@ -50,6 +57,9 @@ jwtRouter.use((req, res, next) => {
 })
 app.use('/api', jwtRouter)
 
+/*
+  以下API需要登录过后才能访问
+*/
 app.use('/api/user', userRouter)
 
 app.use(function(req, res, next) {

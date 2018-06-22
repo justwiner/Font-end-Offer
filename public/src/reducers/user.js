@@ -1,6 +1,9 @@
 import * as ActionTypes from '../constants/ActionTypes'
+import {Cookie} from '../lib'
 
-const user = JSON.parse(localStorage.getItem('user'))
+let user = {}
+const strUser = Cookie.get('user')
+if(strUser !== ""){user = JSON.parse(strUser)}
 
 let initialState = {
   id: '', 
@@ -9,7 +12,7 @@ let initialState = {
   token: null
 }
 
-if ( user !== null ) {
+if ( user !== {} ) {
   initialState = {
     id: user.id, 
     nickName: user.nickName,
