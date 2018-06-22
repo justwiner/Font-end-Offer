@@ -1,0 +1,20 @@
+{
+  "name": "Font-end-Offer",
+  "version": "1.0.0",
+  "description": "A font-end community",
+  "main": "index.js",
+  "repository": "https://github.com/justwiner/Font-end-Offer.git",
+  "author": "justwiner <392110917@qq.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "http-errors": "^1.6.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.1.6",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1"
+  }
+}
