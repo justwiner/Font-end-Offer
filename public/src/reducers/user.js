@@ -1,23 +1,19 @@
 import * as ActionTypes from '../constants/ActionTypes'
-import {Cookie} from '../lib'
+import {UserService} from '../lib'
 
-let user = {}
-const strUser = Cookie.get('user')
-if(strUser !== ""){user = JSON.parse(strUser)}
+const user = UserService.user
 
 let initialState = {
   id: '', 
   nickName: '',
-  avatar: '',
-  token: null
+  avatar: ''
 }
 
-if ( user !== {} ) {
+if ( user !== null ) {
   initialState = {
     id: user.id, 
     nickName: user.nickName,
-    avatar: user.avatar,
-    token: user.token
+    avatar: user.avatar
   }
 }
 
@@ -27,7 +23,7 @@ export default (state= initialState, action) => {
       return { ...state, ...action.user }
 
     case ActionTypes.LOGOUT : 
-      const user = { nickName: '', avatar: '', token: null, id: '' } 
+      const user = { nickName: '', avatar: '', id: '' } 
       return { ...state, ...user }
 
     default : return state

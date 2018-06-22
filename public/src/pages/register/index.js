@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, Button, message, Icon } from 'antd'
 import {Captcha} from '../../components'
+import {Service,UserService} from '../../lib'
 import './index.scss'
 const FormItem = Form.Item;
 
@@ -17,11 +18,17 @@ class Register extends Component {
       eMail: '',
       password: '',
       rePassword: '',
-      captcha: ''
+      captcha: '',
+      checkLoading: "检测邮箱",
+      registerLoading: false
     }
   }
   componentWillMount () {
-    this.setState({ captcha: this.randomcaptcha() })
+    const user = UserService.user,
+      token = UserService.token
+    user !== null && token !== '' 
+      ? this.props.history.push('/') 
+      : this.setState({ captcha: this.randomcaptcha() })
   }
   randomcaptcha = () => {
     const length = 4;
@@ -38,11 +45,23 @@ class Register extends Component {
   }
   register = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const { captcha } = this.state
         if (values.captcha === captcha) {
-          console.log(values);
+          this.setState({registerLoading: true})
+          const { eMail, password, nickName } = values,
+            data = (await Service.register({ eMail, password, nickName })).data,
+            mes = data.message
+            if (data.success) {
+              message.success(mes)
+              this.setState({registerLoading: false})
+              this.props.actions.login(data)
+              this.props.history.push('/')
+            } else {
+              message.error(mes)
+              this.setState({registerLoading: false})
+            }
         } else {
           message.error('两次验证码不相同！')
         }
@@ -50,7 +69,7 @@ class Register extends Component {
     });
   }
   nickNameOnChange = e => this.setState({ nickName: e.target.value })
-  emailOnChange = e => this.setState({ eMail: e.target.value })
+  eMailOnChange = e => this.setState({ eMail: e.target.value })
   passwordOnChange = e => this.setState({ password: e.target.value })
   rePasswordOnChange = e => this.setState({ rePassword: e.target.value })
   checkPassword = (rule, value, callback) => {
@@ -79,9 +98,22 @@ class Register extends Component {
     }
     callback()
   }
+  checkEMail = async (e) => {
+    this.setState({checkLoading: (<Icon type="loading" />)})
+    const {eMail} = this.state
+    if (eMail !== '') {
+      const data = (await Service.checkEMail({eMail})).data
+      const {success} = data,
+        mes = data.message
+      success ? message.success(mes) : message.error(mes)
+    } else {
+      message.error('请输入邮箱！')
+    }
+    this.setState({checkLoading: "检测邮箱"})
+  }
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { captcha } = this.state
+    const { captcha, checkLoading, registerLoading } = this.state
     return (
       <section className="register">
         <article>欢迎加入 Font Family</article>
@@ -99,15 +131,20 @@ class Register extends Component {
               <Input onChange={this.nickNameOnChange} size="large" placeholder="昵称"/>
             )}
           </FormItem>
-          <FormItem className="register-form">
-            {getFieldDecorator('email', {
+          <FormItem className="register-form register-eMail">
+            {getFieldDecorator('eMail', {
               rules: [{
                 type: 'email', message: '请输入正确格式的邮箱!',
               }, {
                 required: true, message: '请输入邮箱!',
               }],
             })(
-              <Input autoComplete='email' onChange={this.emailOnChange} size="large" placeholder="邮箱"/>
+              <div>
+                <Input autoComplete='eMail' onChange={this.eMailOnChange} size="large" placeholder="邮箱"/>
+                <Button size="large" onClick={this.checkEMail}>
+                  {checkLoading}
+                </Button>
+              </div>
             )}
           </FormItem>
           <FormItem className="register-form">
@@ -149,7 +186,7 @@ class Register extends Component {
             )}
           </FormItem>
           <FormItem className="register-form">
-            <Button size="large" type="primary" htmlType="submit">注册</Button>
+            <Button loading={registerLoading} size="large" type="primary" htmlType="submit">注册</Button>
           </FormItem>
         </Form>
       </section>

@@ -11,15 +11,15 @@ class App extends Component {
   render () {
     return (
       <BrowserRouter>
-      <div id="app">
-        <Head {...this.props}/>
-        <Route exact path="/" component = {Home}/>
-        <Route path="/upload" component = {Upload}/>
-        <Route path="/about" component = {About}/>
-        <Route path="/questions" component = {Questions}/>
-        <Route exact path="/register" component={Register} />
-        <Foot />
-      </div>
+        <div id="app">
+          <Head {...this.props}/>
+          <Route exact path="/" component = {Home}/>
+          <Route path="/upload" component = {Upload}/>
+          <Route path="/about" component = {About}/>
+          <Route path="/questions" component = {Questions}/>
+          <Route exact path="/register" render={(props) => <Register {...Object.assign(props,this.props)}/>} />
+          <Foot />
+        </div>
       </BrowserRouter>
     )
   }

@@ -31,11 +31,24 @@
   .captcha > div > div {
     display: inline-block;
   }
-  .captcha-form .ant-input {
-    width: 10vw;
+  .captcha-form .ant-btn {
+    width: 9vw;
   }
   ._captcha {
     cursor: pointer;
+  }
+  .register-eMail {
+    .ant-input {
+      width: 70%;
+    }
+    .ant-btn {
+      width: 20%;
+    }
+    #eMail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }
 

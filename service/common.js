@@ -32,13 +32,26 @@ let CommonService = ( ()=> {
     }
     static async register (nickName, eMail, password) {
       try {
-        await User.create({
-          nickName,
-          eMail,
-          password,
-          avatar : config.user.defaultHead
-        })
-        return { success: true, message: '注册成功!' }
+        const result = await CommonService.checkEMail(eMail)
+        if ( result.success ) {
+          const avatar = config.user.defaultHead
+          await User.create({
+            nickName,
+            eMail,
+            password,
+            avatar
+          })
+          const id = (await User.findOne( { eMail } ))._id
+          const token = jwt.sign({nickName, eMail}, config.tokenSet.jwtsecret, {expiresIn : config.tokenSet.time});
+          return { 
+            success: true, 
+            message: '注册成功!',
+            token,
+            user: { nickName, avatar, eMail, _id: id }
+          }
+        } else {
+          return result
+        }
       } catch (e) {
         console.log(e)
         return error
