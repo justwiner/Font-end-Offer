@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 const config = require('./config')
 const port = process.env.PORT || config.network.port;
 const commonRouter = require('./routes/common')
+const questionNoLogin = require('./routes/questionNoLogin')
 const userRouter = require('./routes/user')
 
 const app = express()
@@ -31,9 +32,10 @@ app.use(cookieParser())
 
 
 /*
-  common的API不需要登录即可使用
+  API不需要登录即可使用
 */
 app.use('/api/common', commonRouter)
+app.use('/api/questionN', questionNoLogin)
 /*
   API路由处理：拦截验证JWT
 */

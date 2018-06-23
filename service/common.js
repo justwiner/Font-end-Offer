@@ -4,7 +4,7 @@ let CommonService = ( ()=> {
   const bcrypt = require('bcrypt')
   const jwt = require('jsonwebtoken')
   const config = require('../config')
-  const error = { success: false, message: '服务器出了一点问题，请稍后重试!' }
+  const error = config.error
 
   class CommonService {
     static async login (eMail, password) {

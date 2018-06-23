@@ -1,3 +1,3 @@
 import * as ActionTypes from '../constants/ActionTypes'
 
-export const getChapters = () => ({type: ActionTypes.GET_CHAPTER})
+export const setChapters = (data) => ({type: ActionTypes.SET_CHAPTER, data})

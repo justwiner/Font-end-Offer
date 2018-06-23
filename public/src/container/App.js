@@ -16,7 +16,7 @@ class App extends Component {
           <Route exact path="/" component = {Home}/>
           <Route path="/upload" component = {Upload}/>
           <Route path="/about" component = {About}/>
-          <Route path="/questions" component = {Questions}/>
+          <Route path="/questions" render={(props) => <Questions {...Object.assign(props,this.props)}/>}/>
           <Route exact path="/register" render={(props) => <Register {...Object.assign(props,this.props)}/>} />
           <Foot />
         </div>
@@ -27,7 +27,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    chapters: state.question.chapters,
+    chapters: state.question.chapters.sort((left, right) => left.id - right.id),
     user: state.user
   }
 }

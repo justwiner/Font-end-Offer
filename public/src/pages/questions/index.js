@@ -7,8 +7,8 @@ class Questions extends Component {
   render () {
     return (
       <section className="questions">
-        <ChapterClassify />
-        <QuestionList />
+        <ChapterClassify {...this.props}/>
+        <QuestionList {...this.props}/>
       </section>
     )
   }

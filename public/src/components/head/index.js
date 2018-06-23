@@ -144,9 +144,9 @@ class Head extends Component {
           okText="确认登录"
           key={key}
         >
-          <p><Input size="large" onChange={this.inputeMail} placeholder="请输入邮箱" /></p>
+          <p><Input size="large" autoComplete="email" onChange={this.inputeMail} placeholder="请输入邮箱" /></p>
           <br/>
-          <p><Input size="large" type="password" onChange={this.inputPassword} placeholder="请输入密码" /></p>
+          <p><Input size="large" autoComplete="new-password" type="password" onChange={this.inputPassword} placeholder="请输入密码" /></p>
         </Modal>
       </header>
     )

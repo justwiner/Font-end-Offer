@@ -10,6 +10,30 @@
         border-bottom: 1px solid lightgrey;
         margin-bottom: 1vw;
       }
+      ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        font-size: .4vw;
+        letter-spacing: normal;
+        li {
+          list-style: none;
+          border: 1px solid #f0f0f0;
+          padding: .2vw 1vw;
+          cursor: pointer;
+          border-radius: .5vw;
+          margin: .25vw .25vw;
+          transition: border-color .3s, background .3s, color .3s;
+        }
+        li:hover, .question-menu-focus {
+          border-color: rgb(40, 190, 184);
+          background: #28BEB8;
+          color: white;
+        }
+      }
     }
     .question-allQuestions-list {
       width: 65vw

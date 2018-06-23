@@ -140,7 +140,7 @@ class Register extends Component {
               }],
             })(
               <div>
-                <Input autoComplete='eMail' onChange={this.eMailOnChange} size="large" placeholder="邮箱"/>
+                <Input autoComplete='email' onChange={this.eMailOnChange} size="large" placeholder="邮箱"/>
                 <Button size="large" onClick={this.checkEMail}>
                   {checkLoading}
                 </Button>
