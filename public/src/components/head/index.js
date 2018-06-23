@@ -50,7 +50,15 @@ class Head extends Component {
     )
   }
   ifCurrentMenu = (pathname = window.location.pathname, path, title, key) => {
-    return pathname === path 
+    let result = false
+    if (pathname === path) {
+      result = true
+    } else {
+      if ( path !== '/' &&  pathname.indexOf(path) >= 0 ) {
+        result = true
+      }
+    }
+    return result
     ? <li onClick={this.changeMenu.bind(this, path)} key={key} style={{borderColor: '#29BDB9'}}><Link to={path}>{title}</Link></li> 
     : <li onClick={this.changeMenu.bind(this, path)} key={key}><Link to={path}>{title}</Link></li>
   }
@@ -66,7 +74,7 @@ class Head extends Component {
         <Menu.Item>
           <Icon type="user" /><span style={style}>个人中心</span>
         </Menu.Item>
-        <Menu.Item onClick={() => this.props.actions.logout()}>
+        <Menu.Item onClick={() => {this.props.actions.logout();window.location.href='/'}}>
           <Icon type="logout" /><span style={style}>退出</span>
         </Menu.Item>
       </Menu>

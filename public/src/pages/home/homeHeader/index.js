@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import Bg from '../../../asset/bg.jpg'
 import './index.scss'
 
@@ -29,7 +30,7 @@ class HomeHeader extends Component {
             <font>我希望你可以学习更多！</font>
           </div>
           <div>
-            <span>马上开始</span>
+            <span><Link to='/questions'>马上开始</Link></span>
           </div>
         </section>
       </div>

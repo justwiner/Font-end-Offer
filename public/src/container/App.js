@@ -14,7 +14,7 @@ class App extends Component {
         <div id="app">
           <Head {...this.props}/>
           <Route exact path="/" component = {Home}/>
-          <Route path="/upload" component = {Upload}/>
+          <Route path="/upload" render={(props) => <Upload {...Object.assign(props,this.props)}/>} />
           <Route path="/about" component = {About}/>
           <Route path="/questions" render={(props) => <Questions {...Object.assign(props,this.props)}/>}/>
           <Route exact path="/register" render={(props) => <Register {...Object.assign(props,this.props)}/>} />
