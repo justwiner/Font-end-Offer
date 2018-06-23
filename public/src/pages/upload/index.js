@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Route} from 'react-router-dom'
 import {message} from 'antd'
 import ChooseType from './ChooseType'
+import CreateQuestions from'./CreateQuestions'
 import './index.scss'
 
 class Upload extends Component {
@@ -16,8 +17,7 @@ class Upload extends Component {
     return (
       <section className="upload">
         <Route exact path="/upload" render={() => <ChooseType />}/>
-        <Route exact path="/upload/question" render={() => <div>创建试题</div>}/>
-        <Route exact path="/upload/paper" render={() => <div>创建试卷</div>}/>
+        <Route exact path="/upload/question" render={() => <CreateQuestions />}/>
       </section>
     )
   }

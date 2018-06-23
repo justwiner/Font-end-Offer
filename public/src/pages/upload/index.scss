@@ -3,4 +3,84 @@
   width: 100vw;
   box-sizing: border-box;
   letter-spacing: normal;
+  display: flex;
+  justify-content: center;
+  .upload-choose {
+    padding: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      background: white;
+      width: 20vw;
+      margin: 3vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-top: 8px solid #fff;
+      box-shadow: 0px 0px 6px #ddd;
+      overflow: hidden;
+      flex-wrap: wrap;
+      article {
+        width: 100%;
+        padding: 2vw 0;
+        border-bottom: 1px solid #e3eaf3;
+        text-align: center;
+        font-size: 1.7vw;
+        transition: color .3s;
+      }
+      div {
+        width: 100%;
+        padding : 2vw;
+        text-align: left;
+        letter-spacing: .2vw;
+        line-height: 1.5vw;
+      }
+      div:nth-child(2) {
+        background: #fcfcfc;
+        font {
+          width: 100%;
+          font-size: .5vw;
+          letter-spacing: normal;
+          color: lightgrey
+        }
+      }
+      div:nth-child(3) {
+        border-top: 1px solid #e3eaf3;
+        span {
+          color: #2196f3
+        }
+      }
+    }
+    a:hover {
+      color: black;
+      article {
+        color: rgb(41, 189, 185);
+      }
+      div {
+        color: black;
+      }
+    }
+  }
+  .createQuestion {
+    width: 50vw;
+    margin-top: 3vw;
+    article {
+      border-bottom: 1px solid #eee;
+      padding-bottom: .5vw;
+      font-size: 1.5vw;
+      margin-bottom: 2vw;
+    }
+    .createQuestion-tip {
+      border-left: 2px solid rgb(41, 189, 185);
+      background: #F6F6F6;
+      color: #555;
+      font-size: .8vw;
+      padding: 1vw 2vw;
+      .createQuestion-tip-stress {
+        color: rgb(41, 189, 185);
+        font-weight: bold;
+      }
+    }
+  }
 }
