@@ -15,7 +15,7 @@ class ChapterClassify extends Component {
     console.log(id)
   }
   render () {
-    const { chapters } = this.props
+    const { chapters } = this.props.question
     return (
       <section className="question-chapterClassify">
         <article className="question-title"><img src={Classify} alt="分类" />分类</article>

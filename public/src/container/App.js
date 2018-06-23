@@ -26,8 +26,13 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { chapters, difficultyLevels, sortBy } = state.question
   return {
-    chapters: state.question.chapters.sort((left, right) => left.id - right.id),
+    question: {
+      chapters: chapters.sort((left, right) => left.id - right.id),
+      difficultyLevels,
+      sortBy,
+    },
     user: state.user
   }
 }

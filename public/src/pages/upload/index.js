@@ -4,7 +4,7 @@ import './index.scss'
 class Upload extends Component {
   render () {
     return (
-      <section>Upload</section>
+      <section className="upload">Upload</section>
     )
   }
 }

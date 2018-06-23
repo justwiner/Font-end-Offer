@@ -43,6 +43,10 @@
     }
     .ant-btn {
       width: 20%;
+      font-size: .5vw;
+    }
+    @media screen and (max-width: 450px){
+      font-size: .1vw;
     }
     #eMail {
       display: flex;
