@@ -82,5 +82,124 @@
         font-weight: bold;
       }
     }
+    .createQuestion-create {
+      margin-top: 2vw;
+      .createQuestion-create-section {
+        background: whitesmoke;
+        margin: 2vw 0;
+        padding: .2vw;
+        transition: box-shadow .3s, transform .3s;
+        position: relative;
+        .create-close {
+          margin-bottom: 1vw;
+          display: flex;
+          justify-content: flex-end;
+          i {
+            font-size: 1vw;
+            cursor: pointer;
+            transition: color .3s;
+          }
+          i:hover {
+            color: rgb(41, 189, 185);
+          }
+        }
+        .create-content {
+          padding: 0 3vw 2vw 3vw;
+          .create-upAndDown {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1vw;
+            i {
+              font-size: 1vw;
+              cursor: pointer;
+              transition: color .3s;
+            }
+            i:hover {
+              color: rgb(41, 189, 185);
+            }
+          }
+          .create-selection {
+            margin-top: 1vw;
+            i {
+              cursor: pointer;
+              transition: color .3s;
+            }
+            i:hover {
+              color: rgb(41, 189, 185);
+            }
+            .selection-detail {
+              margin-top: .5vw;
+              width: 50%;
+              display: none;
+            }
+            .ant-radio-group, .ant-checkbox-group {
+              i {
+                margin-top: 1vw;
+              }
+            }
+            .ant-checkbox-wrapper, .ant-radio-wrapper {
+              width: 100%;
+            }
+            .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+              margin: 0;
+            }
+          }
+        }
+      }
+      .createQuestion-create-section:hover:after, .createQuestion-create-section:hover:before {
+        position: absolute;
+        content: "";
+        transition: all .3s;
+        animation: createQuestion-create-section-hover .3s linear forwards;
+      }
+      .createQuestion-create-section:hover {
+        box-shadow: 0 3px 30px whitesmoke;
+      }
+      .createQuestion-create-section:hover::before {
+        border-top: 2px solid rgb(41, 189, 185);
+        border-left: 2px solid rgb(41, 189, 185);
+        left: 0;
+        top:0;
+      }
+      .createQuestion-create-section:hover::after {
+        border-bottom: 2px solid rgb(41, 189, 185);
+        border-right: 2px solid rgb(41, 189, 185);
+        right: 0;
+        bottom: 0;
+      }
+      .createQuestion-create-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        div {
+          width: 20vw;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          button, font {
+            margin: .5vw 0;
+          }
+        }
+        div:last-child {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}
+
+@keyframes createQuestion-create-section-hover {
+  from  {
+    width: 0;
+    height: 0;
+  } 
+  to {
+    width: 1vw;
+    height: 1vw;
   }
 }

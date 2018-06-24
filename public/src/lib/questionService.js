@@ -20,6 +20,10 @@ class QuestionService {
   static async getChaptersN () {
     return await QuestionService.questionService().get('/chapters')
   }
+
+  static async uploadQuestions () {
+    return await QuestionService.questionService(true).post('/uploadQuestions')
+  }
 }
 
 export default QuestionService
