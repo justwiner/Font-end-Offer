@@ -1,6 +1,15 @@
 const mongoose = require('mongoose')
 
 let Question_Schema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  sort: {
+    type: Number,
+    required: true
+  },
   type: {
     type: Number,
     required: true
@@ -26,8 +35,7 @@ let Question_Schema = new mongoose.Schema({
     required: true
   },
   evaluation: {
-    type: String,
-    required: true
+    type: String
   }
 }, {
   versionKey: false

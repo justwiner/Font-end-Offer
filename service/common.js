@@ -18,7 +18,7 @@ let CommonService = ( ()=> {
           return { success: false, message: '邮箱与密码不匹配!' }
         }
         const { nickName, avatar, _id } = user
-        const token = jwt.sign({nickName, eMail: user.eMail}, config.tokenSet.jwtsecret, {expiresIn : config.tokenSet.time});
+        const token = jwt.sign({nickName, _id, eMail: user.eMail}, config.tokenSet.jwtsecret, {expiresIn : config.tokenSet.time});
         return { 
           success: true, 
           message: '登录成功!',

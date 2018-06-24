@@ -18,8 +18,7 @@ let Paper_Schema = new mongoose.Schema({
     required: true
   },
   evaluation: {
-    type: String,
-    required: true
+    type: String
   }
 }, {
   versionKey: false

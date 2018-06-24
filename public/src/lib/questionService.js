@@ -3,26 +3,32 @@ import UserService from './userService'
 import config from './config'
 
 class QuestionService {
-  static questionService (ifLogin = false) {
+  static get questionServiceNoLogin () {
     let service = axios.create({
       baseURL: `${config.url}/questionN`
     })
-    if (ifLogin) {
-      service.defaults.headers = {
+    service.defaults.timeout = config.timeOut
+    return service
+  }
+
+  static get questionService () {
+    let service = axios.create({
+      baseURL: `${config.url}/question`,
+      headers: {
         'x-access-token': UserService.token
       }
-    }
-    service.defaults.timeout = config.timeOut
+    })
+    service.defaults.timeout = 12000;
 
     return service
   }
 
   static async getChaptersN () {
-    return await QuestionService.questionService().get('/chapters')
+    return await QuestionService.questionServiceNoLogin.get('/chapters')
   }
 
-  static async uploadQuestions () {
-    return await QuestionService.questionService(true).post('/uploadQuestions')
+  static async uploadQuestions (data) {
+    return await QuestionService.questionService.post('/upload', data)
   }
 }
 

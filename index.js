@@ -10,6 +10,7 @@ const port = process.env.PORT || config.network.port;
 const commonRouter = require('./routes/common')
 const questionNoLogin = require('./routes/questionNoLogin')
 const userRouter = require('./routes/user')
+const questionRouter = require('./routes/questions')
 
 const app = express()
 
@@ -19,9 +20,9 @@ const app = express()
 app.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type,x-access-token');
+  if(req.method=="OPTIONS") res.send(200);
+  else next();
 })
 
 // 
@@ -48,8 +49,7 @@ jwtRouter.use((req, res, next) => {
       if (err) {
         return res.json({ success: false, message: '无效的token！' })
       } else {
-        req.decoded = decoded;
-        console.log(decoded)
+        req.user = decoded;
         next();
       }
     })
@@ -63,6 +63,7 @@ app.use('/api', jwtRouter)
   以下API需要登录过后才能访问
 */
 app.use('/api/user', userRouter)
+app.use('/api/question', questionRouter)
 
 app.use(function(req, res, next) {
   next(createError(404));

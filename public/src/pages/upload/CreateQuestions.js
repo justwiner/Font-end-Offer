@@ -1,13 +1,23 @@
 import React, {Component} from 'react'
 import {Input, Button, Icon, message, Checkbox, Tooltip, Radio, Modal } from 'antd'
+import {QuestionService} from '../../lib'
 const { TextArea } = Input;
-const confirm = Modal.confirm;
 
 class CreateQuestions extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      questions: []
+      questions: [{
+        type: 0,
+        title: '1111',
+        options: [{label: '1123', value: 1}, { label: '321', value:2 }],
+        answers: [1]
+      }],
+      questionLoading: false,
+      paperLoading: false,
+      uploadLoading: false,
+      visible: false,
+      paperTitle: ''
     }
   }
   AddQuestion = type => {
@@ -70,71 +80,112 @@ class CreateQuestions extends Component {
   addOption = (e, index) => {
     let { questions } = this.state
     const value = e.target.value
-    console.log(questions)
     let { options } = questions[index]
     if ( options.length === 6 ) {
       message.warn('最多支持6个选项!')
       return
     }
-    questions[index].options.push(value)
+    questions[index].options.push({ label: value, value: options.length })
     document.getElementById(`selection-detail-${index}`).value = ''
     this.showSelectDetail(index)
     this.setState({ questions })
   }
   deleteDownOption = (i) => {
     let { questions } = this.state
+    const answers = questions[i].answers
     if ( questions[i].options.length !== 0 ) {
-      questions[i].options.pop()
+      const popOption = questions[i].options.pop()
+      let index = -1;
+      for (let i = 0; i < answers.length; i++) {
+        if ( popOption.value === answers[i] ) {
+          index = i
+          break;
+        }
+      }
+      index !== -1 ? questions[i].answers.splice(index, 1) : {};
       this.setState({ questions })
     } else {
       message.warn('你还未添加选项！')
     }
   }
-  upload = () => {
+  upload = async () => {
     const { questions } = this.state
     let msg= ''
-    let result = true
     for ( let i = 0; i < questions.length; i++ ) {
       if ( questions[i].title === '' ) {
         msg = `第 ${i + 1} 题缺少题目描述，请正确填写信息。`
         message.error(msg)
-        result = false
-        break
+        return
       }
       if ( questions[i].options.length < 2 ) {
         msg = `请确保第 ${i + 1} 题的选项数量大于等于2。`
         message.error(msg)
-        result = false
-        break
+        return
       }
       if ( questions[i].answers.length === 0 ) {
         msg = `请确保第 ${i + 1} 题含有预设答案。`
         message.error(msg)
-        result = false
-        break
+        return
       }
     }
-    let data = {}
-    if ( result && questions.length >= 15 ) {
-      confirm({
-        title: '请选择打包方式',
-        content: '是否将它们打包为一张试卷?',
-        onOk() {
-          data = Object.assign({}, { battingType: true }, {data: questions})
-          console.log(data)
-        },
-        onCancel() {
-          data = Object.assign({}, { battingType: false }, {data: questions})
-          console.log(data)
-        },
-      });
+    if ( questions.length >= 2 ) {
+      this.showModal()
     } else {
-      data = Object.assign({}, { battingType: false }, {data: questions})
-      console.log(data)
+      this.setState({ uploadLoading: true })
+      const sortQuestions = this.sortQuestion(questions, false)
+      const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: false }, {data: sortQuestions}))).data
+      data.success ? message.success(data.message) : message.error(data.message)
+      this.setState({ uploadLoading: false })
     }
   }
+  sortQuestion = (questions, battingType) => {
+    if (battingType) {
+      return questions.map((item, index) => {
+        return Object.assign({}, { sort: index + 1 }, item)
+      })
+    } else {
+      return questions.map((item, index) => {
+        return Object.assign({}, { sort: -1 }, item)
+      })
+    }
+  }
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  }
+  uploadPaper = async () => {
+    const { questions, paperTitle } = this.state
+    if ( paperTitle !== '' ) {
+      this.setState({ paperLoading: true });
+      const sortQuestions = this.sortQuestion(questions, true)
+      const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: true, title: paperTitle }, {data: sortQuestions}))).data
+      if ( data.success ) {
+        message.success(data.message)
+        this.setState({ visible: false })
+      } else {
+        message.error(data.message)
+      }
+      this.setState({ paperLoading: false });
+    } else {
+      message.warn('请输入试卷名！')
+    }
+  }
+  uploadQuestion = async () => {
+    const { questions } = this.state
+    this.setState({ questionLoading: true });
+    const sortQuestions = this.sortQuestion(questions, false)
+    const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: false }, {data: sortQuestions}))).data
+      if ( data.success ) {
+        message.success(data.message)
+        this.setState({ visible: false })
+      } else {
+        message.error(data.message)
+      }
+      this.setState({ questionLoading: false });
+  }
   render () {
-    const {questions} = this.state
+    const {questions, questionLoading, paperLoading, uploadLoading, visible} = this.state
     return (
       <section className="createQuestion">
         <article>创建问题</article>
@@ -194,7 +245,7 @@ class CreateQuestions extends Component {
                             {
                               item.options.map((e, i) => {
                                 return (
-                                  <Radio key={i} value={i}>{e}</Radio>
+                                  <Radio key={i} value={e.value}>{e.label}</Radio>
                                 )
                               })
                             }
@@ -211,7 +262,7 @@ class CreateQuestions extends Component {
                             {
                               item.options.map((e, i) => {
                                 return (
-                                  <Checkbox key={i} value={i}>{e}</Checkbox>
+                                  <Checkbox key={i} value={e.value}>{e.label}</Checkbox>
                                 )
                               })
                             }
@@ -239,8 +290,25 @@ class CreateQuestions extends Component {
             </div>
             <div>
             {
-              questions.length !== 0 ? (<Button onClick={this.upload} icon="check" size="large">完成</Button>) : (<div/>)
+              questions.length !== 0 ? (<Button onClick={this.upload} loading={uploadLoading} icon="check" size="large">完成</Button>) : (<div/>)
             }
+            <Modal
+              visible={visible}
+              title="选择上传方式"
+              onCancel={() => { this.setState({ visible: false }) }}
+              footer={[
+                <Button key="back" loading={questionLoading} onClick={this.uploadQuestion}>
+                  批量上传
+                </Button>,
+                <Button key="submit" type="primary" loading={paperLoading} onClick={this.uploadPaper}>
+                  上传试卷
+                </Button>,
+              ]}
+            >
+              <p style={{letterSpacing: 'normal'}}>当上传的题目数量大于15题时，。</p>
+              <p style={{letterSpacing: 'normal'}}>若选择以试卷方式上传，请输入试卷名称。</p>
+              <Input size="large" onChange = { (e) => { this.setState({ paperTitle: e.target.value }) } } placeholder="请输入试卷名" />
+            </Modal>
             </div>
           </div>
         </section>
