@@ -8,8 +8,11 @@ class ChapterClassify extends Component {
     super(props)
   }
   async componentWillMount () {
-    const chapter = (await QuestionService.getChaptersN()).data.chapters
-    this.props.actions.setChapters(chapter)
+    let {chapters} = this.props.question
+    if ( chapters .length === 0 ) {
+      chapters = (await QuestionService.getChaptersN()).data.chapters
+    }
+    this.props.actions.setChapters(chapters)
   }
   chapterOnClick (id) {
     console.log(id)

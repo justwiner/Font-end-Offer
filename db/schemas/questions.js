@@ -18,6 +18,14 @@ let Question_Schema = new mongoose.Schema({
     type: String,
     required: true
   },
+  chapter: {
+    type: Number,
+    required: true
+  },
+  difficultyLevel: {
+    type: Number,
+    required: true
+  },
   options: {
     type: Array,
     required: true

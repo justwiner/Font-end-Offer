@@ -53,8 +53,18 @@ a:focus {
 .ant-checkbox-checked:after,
 .ant-radio-checked .ant-radio-inner,
 .ant-radio-checked:after,
-.ant-radio-wrapper:hover .ant-radio .ant-radio-inner, .ant-radio:hover .ant-radio-inner, .ant-radio-focused .ant-radio-inner {
+.ant-radio-wrapper:hover .ant-radio .ant-radio-inner, .ant-radio:hover .ant-radio-inner, .ant-radio-focused .ant-radio-inner,
+.ant-select-selection:hover,
+.ant-select-focused .ant-select-selection,
+.ant-select-selection:focus,
+.ant-select-selection:active
+ {
   border-color: #28BEB8;
+}
+.ant-select-focused .ant-select-selection,
+.ant-select-selection:focus,
+.ant-select-selection:active {
+  box-shadow: 0 0 0 2px rgba(41, 189, 185, .2)
 }
 .ant-checkbox-checked .ant-checkbox-inner, .ant-checkbox-indeterminate .ant-checkbox-inner,
 .ant-radio-inner:after {

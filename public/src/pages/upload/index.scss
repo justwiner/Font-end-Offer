@@ -144,6 +144,16 @@
               margin: 0;
             }
           }
+          .selection-selector {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 1vw;
+            span {
+              margin-right: 1vw;
+            }
+          }
         }
       }
       .createQuestion-create-section:hover:after, .createQuestion-create-section:hover:before {
@@ -189,6 +199,25 @@
           flex-wrap: wrap;
         }
       }
+    }
+  }
+  .create-success {
+    margin-top: 7vw;
+    i {
+      font-size: 8vw;
+      color: #44b65d
+    }
+    p:nth-child(2) {
+      font-size: 1vw;
+      color: #44b65d
+    }
+    p:nth-child(4) {
+      a {
+        margin: 0 1vw;
+      }
+    }
+    p {
+      text-align: center;
     }
   }
 }

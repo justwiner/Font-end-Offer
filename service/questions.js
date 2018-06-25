@@ -11,13 +11,15 @@ const QuestionsService = ( () => {
         let uuids = []
         let uuid_ = ''
         const createQuestionsPromise = data.map(item => {
-          const { type, title, options, answers, sort } = item
+          const { type, title, options, answers, sort, chapter, difficultyLevel } = item
           uuid_ = uuid.v4()
           uuids.push(uuid_)
           return Question.create({
             id: uuid_,
             sort,
             type,
+            chapter,
+            difficultyLevel,
             title,
             options,
             answers,

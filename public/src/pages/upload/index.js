@@ -3,6 +3,7 @@ import {Route} from 'react-router-dom'
 import {message} from 'antd'
 import ChooseType from './ChooseType'
 import CreateQuestions from'./CreateQuestions'
+import CreateSuccess from './CreateSuccess'
 import './index.scss'
 
 class Upload extends Component {
@@ -16,8 +17,9 @@ class Upload extends Component {
   render () {
     return (
       <section className="upload">
-        <Route exact path="/upload" render={() => <ChooseType />}/>
-        <Route exact path="/upload/question" render={() => <CreateQuestions />}/>
+        <Route exact path="/upload" render={() => <ChooseType/>}/>
+        <Route exact path="/upload/question" render={() => <CreateQuestions {...this.props} />}/>
+        <Route exact path="/upload/success" render={() => <CreateSuccess {...this.props} />}/>
       </section>
     )
   }

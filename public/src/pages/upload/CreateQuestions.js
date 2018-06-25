@@ -1,23 +1,26 @@
 import React, {Component} from 'react'
-import {Input, Button, Icon, message, Checkbox, Tooltip, Radio, Modal } from 'antd'
+import {Input, Button, Icon, message, Checkbox, Tooltip, Radio, Modal, Select  } from 'antd'
 import {QuestionService} from '../../lib'
 const { TextArea } = Input;
+const Option = Select.Option;
 
 class CreateQuestions extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      questions: [{
-        type: 0,
-        title: '1111',
-        options: [{label: '1123', value: 1}, { label: '321', value:2 }],
-        answers: [1]
-      }],
+      questions: [],
       questionLoading: false,
       paperLoading: false,
       uploadLoading: false,
       visible: false,
       paperTitle: ''
+    }
+  }
+  async componentWillMount () {
+    let { chapters } = this.props.question
+    if (chapters.length === 0) {
+      chapters = (await QuestionService.getChaptersN()).data.chapters
+      this.props.actions.setChapters(chapters)
     }
   }
   AddQuestion = type => {
@@ -30,7 +33,9 @@ class CreateQuestions extends Component {
       type,
       title: '',
       options: [],
-      answers: []
+      answers: [],
+      chapter: 0,
+      difficultyLevel: 1
     }
     questions.push(question)
     this.setState({ questions })
@@ -133,9 +138,11 @@ class CreateQuestions extends Component {
     } else {
       this.setState({ uploadLoading: true })
       const sortQuestions = this.sortQuestion(questions, false)
+      console.log(Object.assign({}, { battingType: false }, {data: sortQuestions}))
       const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: false }, {data: sortQuestions}))).data
       data.success ? message.success(data.message) : message.error(data.message)
       this.setState({ uploadLoading: false })
+      this.props.history.push('/upload/success')
     }
   }
   sortQuestion = (questions, battingType) => {
@@ -162,7 +169,7 @@ class CreateQuestions extends Component {
       const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: true, title: paperTitle }, {data: sortQuestions}))).data
       if ( data.success ) {
         message.success(data.message)
-        this.setState({ visible: false })
+        this.props.history.push('/upload/success')
       } else {
         message.error(data.message)
       }
@@ -178,18 +185,25 @@ class CreateQuestions extends Component {
     const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: false }, {data: sortQuestions}))).data
       if ( data.success ) {
         message.success(data.message)
-        this.setState({ visible: false })
+        this.props.history.push('/upload/success')
       } else {
         message.error(data.message)
       }
       this.setState({ questionLoading: false });
   }
-  render () {
-    const {questions, questionLoading, paperLoading, uploadLoading, visible} = this.state
+  changeChapter = (value, index) => {
+    let { questions } = this.state
+    questions[index].chapter = value
+    this.setState({questions})
+  }
+  changeDifficultyLevel = (value, index) => {
+    let { questions } = this.state
+    questions[index].difficultyLevel = value
+    this.setState({questions})
+  }
+  renderTip = () => {
     return (
-      <section className="createQuestion">
-        <article>创建问题</article>
-        <section className="createQuestion-tip">
+      <section className="createQuestion-tip">
           <p>1. 上传的题目应属于
             <font className="createQuestion-tip-stress">JavaScript</font>
             的范畴。
@@ -220,6 +234,16 @@ class CreateQuestions extends Component {
           </p>
           <p>希望大家共同营造良好的 Front Family 社区，大家共同进步！</p>
         </section>
+    )
+  }
+  render () {
+    const {questions, questionLoading, paperLoading, uploadLoading, visible} = this.state,
+          {difficultyLevels, chapters} = this.props.question,
+          difficultyLevelsC = difficultyLevels.filter(e => e.id !== 0)
+    return (
+      <section className="createQuestion">
+        <article>创建问题</article>
+        { this.renderTip() }
         <section className="createQuestion-create">
           {
             questions.map((item, index) => {
@@ -276,6 +300,24 @@ class CreateQuestions extends Component {
                         )
                       }
                       <Input maxLength="100" id={`selection-detail-${index}`} onPressEnter={(e) => { this.addOption(e, index) }} className="selection-detail" placeholder="请输入选项描述" />
+                      <div className="selection-selector">
+                        <div>
+                          <span>分类: </span>
+                          <Select value={item.chapter} onChange={(value) => this.changeChapter(value, index)} placeholder="请选择分类" style={{ width: '15vw', marginRight: '2vw'}}>
+                            {
+                              chapters.map((chap, index) => <Option key={index} value={chap.id}>{chap.title}</Option>)
+                            }
+                          </Select>
+                        </div>
+                        <div>
+                        <span>难度: </span>
+                          <Select value={item.difficultyLevel} onChange={(value) => this.changeDifficultyLevel(value, index)} placeholder="请选择难度" style={{ width: '7vw'}}>
+                          {
+                            difficultyLevelsC.map((dif, index) => <Option key={index} value={dif.id}>{dif.title}</Option>)
+                          }
+                          </Select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
