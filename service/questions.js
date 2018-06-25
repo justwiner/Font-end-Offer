@@ -10,10 +10,12 @@ const QuestionsService = ( () => {
         const { data, battingType } = _data
         let uuids = []
         let uuid_ = ''
+        let difficultyLevels = 0
         const createQuestionsPromise = data.map(item => {
           const { type, title, options, answers, sort, chapter, difficultyLevel } = item
           uuid_ = uuid.v4()
           uuids.push(uuid_)
+          difficultyLevels += difficultyLevel
           return Question.create({
             id: uuid_,
             sort,
@@ -33,6 +35,7 @@ const QuestionsService = ( () => {
             title: _data.title,
             questions: uuids,
             createAt: Date.now(),
+            difficultyLevel: Math.round(difficultyLevels / data.length),
             createBy: userId,
             evaluation: []
           })

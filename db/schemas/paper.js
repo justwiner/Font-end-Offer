@@ -13,6 +13,10 @@ let Paper_Schema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  difficultyLevel: {
+    type: Number,
+    required: true
+  },
   createBy: {
     type: String,
     required: true
