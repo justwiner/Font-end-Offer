@@ -1,27 +1,28 @@
 import React, {Component} from 'react'
 import Questions from '../../../asset/questions.png'
+import QuestionsList from './QuestionsList'
 import './index.scss'
 
 class QuestionList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentSearch: [0],
+      currentChapter: [0],
       currentDifficults: [0],
       currentSortBy: 0
     }
   }
   componentDidUpdate () {
     const {chapters, difficultyLevels, sortBy}  = this.props.question
-    const {currentDifficults, currentSortBy, currentSearch} = this.state
-    this.renderMenuItems(currentSearch,chapters, 'question-menu-focus', 'chapter-')
+    const {currentDifficults, currentSortBy, currentChapter} = this.state
+    this.renderMenuItems(currentChapter,chapters, 'question-menu-focus', 'chapter-')
     this.renderMenuItems(currentDifficults,difficultyLevels, 'question-menu-focus', 'difficult-')
     this.renderMenuItems(currentSortBy,sortBy, 'question-menu-focus', 'sort-')
   }
   handleClickMenu = id => {
-    let {currentSearch} = this.state
-    currentSearch = this.RemoveDuplicates(currentSearch, id)
-    this.setState({ currentSearch })
+    let {currentChapter} = this.state
+    currentChapter = this.RemoveDuplicates(currentChapter, id)
+    this.setState({ currentChapter })
   }
   handleClickDifficult = id => {
     let {currentDifficults} = this.state
@@ -29,7 +30,6 @@ class QuestionList extends Component {
     this.setState({ currentDifficults })
   }
   handleClickSort = id => this.setState({ currentSortBy: id })
-
   RemoveDuplicates = (current, id) => {
     const index = current.indexOf(id)
     if ( index < 0 ) {
@@ -54,7 +54,7 @@ class QuestionList extends Component {
   }
   render () {
     const { chapters, difficultyLevels, sortBy } = this.props.question
-    const {currentSearch, currentDifficults, currentSortBy} = this.state
+    const {currentChapter, currentDifficults, currentSortBy} = this.state
     return (
       <section className="questions-list">
         <article className="question-title"><img src={Questions} alt="试题列表" />试题列表</article>
@@ -80,16 +80,10 @@ class QuestionList extends Component {
             </ul>
           </section>
           <section className="question-allQuestions-list">
-            <p>当前选择分类</p>
-            {
-              currentSearch.map((item, index) => <span key={index}>{item},</span>)
-            }
-            <p>当前选择难度</p>
-            {
-              currentDifficults.map((item, index) => <span key={index}>{item},</span>)
-            }
-            <p>当前排序方式</p>
-            <span>{currentSortBy}</span>
+            <QuestionsList 
+              currentChapter={currentChapter}
+              currentDifficults={currentDifficults}
+              currentSortBy={currentSortBy}/>
           </section>
         </section>
       </section>

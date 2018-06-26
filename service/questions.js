@@ -27,7 +27,8 @@ const QuestionsService = ( () => {
             answers,
             createAt: Date.now(),
             createBy: userId,
-            evaluation: []
+            like: [],
+            dislike: []
           })
         })
         if (battingType) {
@@ -37,7 +38,8 @@ const QuestionsService = ( () => {
             createAt: Date.now(),
             difficultyLevel: Math.round(difficultyLevels / data.length),
             createBy: userId,
-            evaluation: []
+            like: [],
+            dislike: []
           })
           await Promise.all(createQuestionsPromise, createPaperPromise)
           return { success: true, message: '上传 试卷 成功，感谢你对社区的贡献！' }

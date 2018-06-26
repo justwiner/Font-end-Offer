@@ -42,8 +42,13 @@ let Question_Schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  evaluation: {
-    type: String
+  like: {
+    type: Array,
+    required: true
+  },
+  dislike: {
+    type: Array,
+    required: true
   }
 }, {
   versionKey: false
