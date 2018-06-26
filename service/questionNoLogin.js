@@ -37,8 +37,8 @@ let QuestionNoLoginService = (() => {
           default: ;break
         }
         let [ total, questions ] = await Promise.all([
-          Question.count(query, null, sort),
-          Question.find(query, null, sort).skip( (page - 1) * (size - 0) ).limit((size - 0))
+          Question.count(query, null, {sort}),
+          Question.find(query, null, {sort}).skip( (page - 1) * (size - 0) ).limit((size - 0))
         ])
         let creatersPromise = questions.map(item => User.findOne({ _id: item.createBy })),
             creaters        = await Promise.all(creatersPromise);
@@ -60,13 +60,20 @@ let QuestionNoLoginService = (() => {
       query = ( difficultyLevel.includes(0) || difficultyLevel.includes('0') ) ? query : Object.assign({}, { difficultyLevel: {"$in": difficultyLevel} }, query)
       return query
     }
-    static async getPapers (currentDifficults, size = 10, page = 1, key) {
-      let query = {}
+    static async getPapers (currentDifficults, sortBy, size, page, key) {
+      let query = {},
+        sort = {};
       query = ( currentDifficults.includes(0) || currentDifficults.includes('0') ) ? query : Object.assign({}, { difficultyLevel: {"$in": currentDifficults} }, query)
       query = ( key !== '' ) ? Object.assign({}, { title: new RegExp(key) }, query) : query
+      switch (sortBy) {
+        case 0: ;break;
+        case 1: sort = Object.assign({}, { createAt: -1 }, sort); break;
+        case 2: sort = Object.assign({}, { like: -1 }, sort); break;
+        default: ;break
+      }
       let [ total, papers ] = await Promise.all([
-        Paper.count(query),
-        Paper.find(query).skip( (page - 1) * (size - 0) ).limit((size - 0))
+        Paper.count(query, null, {sort}),
+        Paper.find(query, null, {sort}).skip( (page - 1) * (size - 0) ).limit((size - 0))
       ])
       let creatersPromise = papers.map(item => User.findOne({ _id: item.createBy })),
           creaters        = await Promise.all(creatersPromise);

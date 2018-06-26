@@ -351,7 +351,7 @@ class CreateQuestions extends Component {
             >
               <p style={{letterSpacing: 'normal'}}>当上传的题目数量大于15题时，。</p>
               <p style={{letterSpacing: 'normal'}}>若选择以试卷方式上传，请输入试卷名称。</p>
-              <Input size="large" onChange = { (e) => { this.setState({ paperTitle: e.target.value }) } } placeholder="请输入试卷名" />
+              <Input size="large" maxLength={15} onChange = { (e) => { this.setState({ paperTitle: e.target.value }) } } placeholder="请输入试卷名" />
             </Modal>
             </div>
           </div>

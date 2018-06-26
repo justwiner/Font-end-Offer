@@ -67,7 +67,8 @@ a:focus {
 .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled),
 .ant-pagination-options-quick-jumper input:focus,
 .ant-pagination-item-active,
-.ant-pagination-item-active:focus, .ant-pagination-item-active:hover
+.ant-pagination-item-active:focus, .ant-pagination-item-active:hover,
+.ant-pagination-options-quick-jumper input:hover
  {
   border-color: #28BEB8;
 }

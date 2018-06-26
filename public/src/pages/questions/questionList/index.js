@@ -57,7 +57,7 @@ class QuestionList extends Component {
     const {currentChapter, currentDifficults, currentSortBy} = this.state
     return (
       <section className="questions-list">
-        <article className="question-title"><img src={Questions} alt="试题列表" />试题列表</article>
+        <article className="question-title"><img src={Questions} alt="试题列表" />试题</article>
         <section className="question-allQuestions">
           <section className="question-allQuestions-menus">
             <article>知识点</article>

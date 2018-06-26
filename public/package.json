@@ -20,6 +20,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "moment": "^2.22.2",
     "node-sass": "^4.9.0",
     "parcel-bundler": "^1.8.1",
     "prop-types": "^15.6.1",

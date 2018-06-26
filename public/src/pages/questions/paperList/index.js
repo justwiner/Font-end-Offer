@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {Input, message} from 'antd'
-import {QuestionService} from '../../../lib'
+import {Input, message, Pagination} from 'antd'
+import {QuestionService,DateParse} from '../../../lib'
 import Paper from '../../../asset/papers.png'
 import './index.scss'
 
@@ -9,23 +9,26 @@ const Search = Input.Search;
 class PaperList extends Component {
   state = {
     currentDifficultyLevel: [0],
+    currentSortBy: 0,
     key: '',
     total: 0,
-    papers: []
+    papers: [],
+    page: 1,
+    size: 4
   }
   componentWillMount () {
-    const {key, currentDifficultyLevel} = this.state
-    this.getPaper(currentDifficultyLevel, key)
+    const {key, currentDifficultyLevel, currentSortBy, page, size} = this.state
+    this.getPaper(currentDifficultyLevel, key, currentSortBy, page, size)
   }
   search = value => {
     this.setState({ key: value })
-    const {currentDifficultyLevel} = this.state
-    this.getPaper(currentDifficultyLevel, value)
+    const {currentDifficultyLevel, currentSortBy, size} = this.state
+    this.getPaper(currentDifficultyLevel, value, currentSortBy, 1, size)
+    this.setState({ page: 1 })
   }
   setDifficultyLevels = id => {
-    let { currentDifficultyLevel, key } = this.state
+    let { currentDifficultyLevel, key, currentSortBy, size } = this.state
     const index = currentDifficultyLevel.findIndex(e => e === id)
-    console.log(index)
     if ( index >= 0 ) {
       currentDifficultyLevel.splice(index, 1)
       currentDifficultyLevel = currentDifficultyLevel.length === 0 ? [0] : currentDifficultyLevel
@@ -33,25 +36,36 @@ class PaperList extends Component {
       currentDifficultyLevel.push(id)
     }
     this.setState({ currentDifficultyLevel })
-    this.getPaper(currentDifficultyLevel, key)
+    this.getPaper(currentDifficultyLevel, key, currentSortBy, 1, size)
+    this.setState({ page: 1 })
   }
-  getPaper = async (currentDifficultyLevel, key) => {
+  setSortBy = id => {
+    let { currentDifficultyLevel, key, size } = this.state
+    this.setState({ currentSortBy: id })
+    this.getPaper(currentDifficultyLevel, key, id, 1, size)
+    this.setState({ page: 1 })
+  }
+  onChange = (page, pageSize) => {
+    const {currentDifficultyLevel, key, currentSortBy} =this.state
+    this.setState({ page, size: pageSize })
+    this.getPaper(currentDifficultyLevel, key, currentSortBy, page, pageSize)
+  }
+  getPaper = async (currentDifficultyLevel, key, currentSortBy, page, size) => {
     const loading = message.loading('正在获取试卷...', 0)
-    const data = (await QuestionService.getPapers({ currentDifficults: currentDifficultyLevel, key })).data
+    const data = (await QuestionService.getPapers({ currentDifficults: currentDifficultyLevel, key, sortBy: currentSortBy, page, size })).data
     loading()
     if (data.success) {
-      console.log(data)
       this.setState({ total: data.total, papers: data.papers })
     } else {
       message.error(data.message, 2)
     }
   }
   render () {
-    const { difficultyLevels } = this.props.question
-    const { currentDifficultyLevel } = this.state
+    const { difficultyLevels, sortBy } = this.props.question
+    const { currentDifficultyLevel, currentSortBy, total, papers, size, page } = this.state
     return (
       <section className="question-paper">
-        <article className="question-title"><img src={Paper} alt="试题列表" />试题列表</article>
+        <article className="question-title"><img src={Paper} alt="试题列表" />试卷</article>
         <section className="question-paper-search">
           <div>
             <Search size="large" style={{letterSpacing: 'normal', marginBottom: '2vw'}} enterButton placeholder="关键字搜索" onSearch={value => this.search(value)}/>
@@ -66,10 +80,58 @@ class PaperList extends Component {
               })
             }
           </div>
+          <div>
+            <label>排序方式：</label>
+            {
+              sortBy.map((item, index) => {
+                let style = {}
+                style = currentSortBy === item.id ? {color: '#28BEB8'} : {}
+                return (<span onClick={() => this.setSortBy(item.id)} style={style} key={index}>{item.title}</span>)
+              })
+            }
+          </div>
         </section>
         <section className="question-paper-content">
-        
+          {
+            papers.map((item, index) => {
+              let style = {}
+              const difficultyLevel = item.difficultyLevel
+              switch (difficultyLevel) {
+                case 1: style = { color: '#73d13d' } ;break;
+                case 2: style = { color: '#1890ff' } ;break;
+                case 3: style = { color: '#ff4d4f' } ;break;
+              }
+              return (
+                <section key={index} className="question-paper-content-item">
+                  <article>{item.title}</article>
+                  <p>
+                    <img src={item.createBy.avatar} alt={item.createBy.nickName}/>
+                  </p>
+                  <p>{DateParse.fromNow(item.createAt)}</p>
+                  <p>
+                    <span>共 <font>{item.questions.length}</font> 题</span>
+                    <font>
+                      <label>难度：</label>
+                      <font style={style}>{difficultyLevels.find(e => e.id === difficultyLevel).title}</font>
+                    </font>
+                  </p>
+                  <p>
+                    <label>热度：</label>
+                    <font>{item.like.length}</font>
+                  </p>
+                </section>
+              )
+            })
+          }
         </section>
+        <Pagination 
+          style={{letterSpacing: 'normal', marginTop: '2vw'}}
+          current={page}
+          pageSize={size}
+          size="small"
+          total={total} 
+          showQuickJumper
+          onChange = {this.onChange}/>
       </section>
     )
   }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Input, message, Pagination } from 'antd'
-import {QuestionService} from '../../../lib'
+import {QuestionService,DateParse} from '../../../lib'
 const Search = Input.Search;
 
 class QuestionsList extends Component {
@@ -20,15 +20,17 @@ class QuestionsList extends Component {
     this.searchFromDB(data)
   }
   componentWillReceiveProps (nextProps) {
-    const {key, page, size} = this.state,
-      data = this.setParama(key, page, size, nextProps)
+    const {key, size} = this.state,
+      data = this.setParama(key, 1, size, nextProps)
     this.searchFromDB(data)
+    this.setState({ page: 1 })
   }
   search = value => {
     this.setState({ key: value })
-    const { page, size } = this.state,
-      data = this.setParama(value, page, size)
+    const { size } = this.state,
+      data = this.setParama(value, 1, size)
     this.searchFromDB(data)
+    this.setState({ page: 1 })
   }
   searchFromDB = async data => {
     const hide = message.loading('正在获取试题..', 0);
@@ -74,7 +76,6 @@ class QuestionsList extends Component {
   render () {
     const { questions, total, page, size } = this.state,
       { chapters, difficultyLevels } = this.props.question;
-    console.log(questions)
     return (
       <section>
         <Search size="large" style={{letterSpacing: 'normal', marginBottom: '2vw'}} enterButton placeholder="关键字搜索" onSearch={value => this.search(value)}/>
@@ -98,14 +99,21 @@ class QuestionsList extends Component {
                   <tbody>
                     {
                       questions.map((item, index) => {
+                        let style = {}
+                        const difficultyLevel = item.difficultyLevel
+                        switch (difficultyLevel) {
+                          case 1: style = { color: '#73d13d' } ;break;
+                          case 2: style = { color: '#1890ff' } ;break;
+                          case 3: style = { color: '#ff4d4f' } ;break;
+                        }
                         return (
                           <tr onClick={() => this.doQuestion(item)} key= {index}>
                             <td>{item.title}</td>
-                            <td className="table-clo-center">{chapters.find(e => e.id === item.chapter).title}</td>
-                            <td className="table-clo-center">{item.createBy.nickName}</td>
-                            <td className="table-clo-center">{difficultyLevels.find(e => e.id === item.difficultyLevel).title}</td>
-                            <td className="table-clo-center">{item.createAt}</td>
-                            <td className="table-clo-center">{item.like.length}</td>
+                            <td className="table-clo-center" style={{fontSize: '.7vw'}}>{chapters.find(e => e.id === item.chapter).title}</td>
+                            <td className="table-clo-center" style={{fontSize: '.7vw'}}>{item.createBy.nickName}</td>
+                            <td className="table-clo-center" style={style}>{difficultyLevels.find(e => e.id === difficultyLevel).title}</td>
+                            <td className="table-clo-center" style={{color: 'lightgrey'}}>{DateParse.fromNow(item.createAt)}</td>
+                            <td className="table-clo-center" style={{color: '#9254de'}}>{item.like.length}</td>
                           </tr>
                         )
                       })
