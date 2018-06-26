@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { Input, message, Pagination } from 'antd'
+import timeago from 'timeago.js'
 import {QuestionService,DateParse} from '../../../lib'
 const Search = Input.Search;
 
@@ -112,7 +113,7 @@ class QuestionsList extends Component {
                             <td className="table-clo-center" style={{fontSize: '.7vw'}}>{chapters.find(e => e.id === item.chapter).title}</td>
                             <td className="table-clo-center" style={{fontSize: '.7vw'}}>{item.createBy.nickName}</td>
                             <td className="table-clo-center" style={style}>{difficultyLevels.find(e => e.id === difficultyLevel).title}</td>
-                            <td className="table-clo-center" style={{color: 'lightgrey'}}>{DateParse.fromNow(item.createAt)}</td>
+                            <td className="table-clo-center" style={{color: 'lightgrey'}}>{timeago().format(item.createAt, 'zh_CN')}</td>
                             <td className="table-clo-center" style={{color: '#9254de'}}>{item.like.length}</td>
                           </tr>
                         )

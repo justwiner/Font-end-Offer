@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Input, message, Pagination} from 'antd'
-import {QuestionService,DateParse} from '../../../lib'
+import {QuestionService} from '../../../lib'
+import timeago from 'timeago.js'
 import Paper from '../../../asset/papers.png'
 import './index.scss'
 
@@ -107,7 +108,7 @@ class PaperList extends Component {
                   <p>
                     <img src={item.createBy.avatar} alt={item.createBy.nickName}/>
                   </p>
-                  <p>{DateParse.fromNow(item.createAt)}</p>
+                  <p>{timeago().format(item.createAt, 'zh_CN')}</p>
                   <p>
                     <span>共 <font>{item.questions.length}</font> 题</span>
                     <font>
