@@ -10,4 +10,9 @@ router.post('/questions', async (req, res) => {
   res.json(await QuestionNoLoginService.getQuestions(currentChapter, currentDifficults, currentSortBy, size, page, key))
 })
 
+router.post('/papers', async (req, res) => {
+  const {currentDifficults, size, page, key} = req.body
+  res.json(await QuestionNoLoginService.getPapers(currentDifficults, key))
+})
+
 exports = module.exports = router

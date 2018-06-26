@@ -1,9 +1,11 @@
 const QuestionsService = ( () => {
 
+  const moment = require('moment')
   const Question = require('../db/mongoose-db').Question
   const Paper = require('../db/mongoose-db').Paper
   const error = require('../config').error
   const uuid = require('node-uuid')
+  const QuestionNoLoginService = require('./questionNoLogin')
   class QuestionsService {
     static async uploadQuestions (_data, userId) {
       try {
@@ -25,7 +27,7 @@ const QuestionsService = ( () => {
             title,
             options,
             answers,
-            createAt: Date.now(),
+            createAt: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
             createBy: userId,
             like: [],
             dislike: []
@@ -35,7 +37,7 @@ const QuestionsService = ( () => {
           const createPaperPromise = Paper.create({
             title: _data.title,
             questions: uuids,
-            createAt: Date.now(),
+            createAt: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
             difficultyLevel: Math.round(difficultyLevels / data.length),
             createBy: userId,
             like: [],
@@ -46,6 +48,21 @@ const QuestionsService = ( () => {
         } else {
           await Promise.all(createQuestionsPromise)
           return { success: true, message: '上传 试题 成功，感谢你对社区的贡献！' }
+        }
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
+
+    static async doQuestionsAtOnce (chapter, difficultyLevel, questionNum) {
+      try {
+        let query     = QuestionNoLoginService.setQuery(chapter, difficultyLevel),
+            questions = await Question.find(query).limit(questionNum)
+        return {
+          success: true,
+          message: '自动生成试卷成功！',
+          questions
         }
       } catch (e) {
         console.log(e)

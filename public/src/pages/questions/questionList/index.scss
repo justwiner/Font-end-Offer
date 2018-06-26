@@ -37,7 +37,57 @@
       }
     }
     .question-allQuestions-list {
-      width: 65vw
+      width: 65vw;
+      display: flex;
+      flex-wrap: wrap;
+      .question-list-detail {
+        .question-list-found {
+          letter-spacing: normal;
+          table {
+            font-size: .85vw;
+            width: 100%;
+            .table-clo-center {
+              text-align: center;
+            }
+            thead > tr {
+              th:first-child, th:last-child {
+                padding: 1vw;
+              }
+            }
+            thead {
+              background: #fafafa;
+            }
+            tbody > tr {
+              border-bottom: 1px solid #eee;
+              cursor: pointer;
+              transition: background .3s;
+              td:first-child, td:last-child {
+                padding: 1vw;
+              }
+              td:nth-child(1) {
+                padding-right: 1vw;
+                transition: color .3s;
+              }
+            }
+            tbody > tr:hover {
+              background: rgba(41, 189, 185, .1);
+              td:nth-child(1) {
+                color: #28BEB8
+              }
+            }
+          }
+        }
+        .question-list-notFound {
+          text-align: center;
+        }
+      }
+    }
+    .question-allQuestions-list > section {
+      width: 100%;
+      ul:nth-child(3) {
+        display: flex;
+        justify-content: center;
+      }
     }
   }
 }

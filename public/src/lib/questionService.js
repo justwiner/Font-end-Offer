@@ -31,8 +31,16 @@ class QuestionService {
     return await QuestionService.questionServiceNoLogin.post('/questions', data)
   }
 
+  static async getPapers (data) {
+    return await QuestionService.questionServiceNoLogin.post('/papers', data)
+  }
+
   static async uploadQuestions (data) {
     return await QuestionService.questionService.post('/upload', data)
+  }
+
+  static async doQuesAtOnce (data) {
+    return await QuestionService.questionService.post('/doQuesAtOnce', data)
   }
 }
 

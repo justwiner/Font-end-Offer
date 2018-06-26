@@ -19,7 +19,9 @@ class CreateQuestions extends Component {
   async componentWillMount () {
     let { chapters } = this.props.question
     if (chapters.length === 0) {
+      const hide = message.loading('正在获取分类..', 0);
       chapters = (await QuestionService.getChaptersN()).data.chapters
+      hide()
       this.props.actions.setChapters(chapters)
     }
   }

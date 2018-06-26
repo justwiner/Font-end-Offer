@@ -60,7 +60,7 @@ class QuestionList extends Component {
         <article className="question-title"><img src={Questions} alt="试题列表" />试题列表</article>
         <section className="question-allQuestions">
           <section className="question-allQuestions-menus">
-            <article>试题分类</article>
+            <article>知识点</article>
             <ul>
               {
                 chapters.map((item, index) => <li id={`chapter-${item.id}`} onClick={() => this.handleClickMenu(item.id)} key={index}>{item.title}</li>)
@@ -80,7 +80,8 @@ class QuestionList extends Component {
             </ul>
           </section>
           <section className="question-allQuestions-list">
-            <QuestionsList 
+            <QuestionsList
+              {...this.props}
               currentChapter={currentChapter}
               currentDifficults={currentDifficults}
               currentSortBy={currentSortBy}/>

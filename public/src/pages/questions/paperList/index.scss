@@ -1,0 +1,28 @@
+.question-paper {
+  margin-top: 5vw;
+  .question-paper-search {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 25vw;
+    div {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    div:nth-child(1) {
+      width: 50vw;
+    }
+    div:nth-child(2) {
+      width: 30vw;
+      justify-content: space-around;
+      span {
+        cursor: pointer;
+        transition: color .3s;
+      }
+      span:hover {
+        color: #28BEB8
+      }
+    }
+  }
+}

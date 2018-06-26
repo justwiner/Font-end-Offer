@@ -1,0 +1,19 @@
+.doQuestionAtOnce {
+  display: flex;
+  justify-content: flex-end;
+  img {
+    cursor: pointer;
+    width: 3vw;
+    height: 3vw;
+    border-radius: 50%;
+    border-color: transparent;
+    box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    transition: transform .3s;
+  }
+  img:hover {
+    transform: rotate(-90deg)
+  }
+  .doQuestionAtOnce-modal {
+    letter-spacing: normal;
+  }
+}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Classify from '../../../asset/classify.png'
+import {message} from 'antd'
 import {QuestionService} from '../../../lib'
 import './index.scss'
 
@@ -10,7 +11,9 @@ class ChapterClassify extends Component {
   async componentWillMount () {
     let {chapters} = this.props.question
     if ( chapters .length === 0 ) {
+      const hide = message.loading('正在获取分类..', 0);
       chapters = (await QuestionService.getChaptersN()).data.chapters
+      hide()
     }
     this.props.actions.setChapters(chapters)
   }
