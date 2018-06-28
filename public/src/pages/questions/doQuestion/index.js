@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Radio, Icon, Button, Progress, Checkbox, Collapse, Modal, message } from 'antd';
 import {QuestionService} from '../../../lib'
+import {Timer}  from '../../../components'
 import './index.scss'
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
@@ -14,16 +15,19 @@ class DoQuestion extends Component {
     currentQuestion: 0,
     userAnswers: [],
     likeIcon: 'smile-o',
-    dislikeIcon: 'frown-o'
+    dislikeIcon: 'frown-o',
+    result: [],
+    time: null
   }
   async componentWillMount () {
     const data = this.props.location.state;
-    console.log(data)
     if (data.type === 0) {
       this.setState({ questions: data.data })
     } else {
       const loading = message.loading("正在获取试题列表...", 0)
-      const result = (await QuestionService.getQuestionsByIds(data.data.questions)).data
+      const {questions, createAt, createBy, difficultyLevel, like, dislike, title} = data.data
+      this.setState({ paperInfo: { createAt, createBy, difficultyLevel, like, dislike, title } })
+      const result = (await QuestionService.getQuestionsByIds(questions)).data
       loading()
       if ( result.success ) {
         this.setState({ questions: result.questions })
@@ -42,7 +46,7 @@ class DoQuestion extends Component {
   }
   submit = () => {
     const { userAnswers, questions } = this.state
-    this.checkAnswer( userAnswers, questions)
+    this.checkAnswer( userAnswers, questions, this.refs.timer.stop())
   }
   submitAdvance = () => {
     confirm({
@@ -52,19 +56,19 @@ class DoQuestion extends Component {
       cancelText: '不，我点错了',
       onOk: () => {
         const { userAnswers, questions } = this.state
-        this.checkAnswer( userAnswers, questions)
+        this.checkAnswer( userAnswers, questions, this.refs.timer.stop())
       }
     });
   }
-  checkAnswer = (answer, questions) => {
-    console.log({ answer, questions })
+  checkAnswer = (answer, questions, time) => {
     const result = questions.map((item, index) => {
       if (answer[index] === undefined || answer[index].length === 0) {
         return false
       }
       return JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort())
     })
-    console.log(result)
+    const {paperInfo} = this.state
+    this.props.history.push({pathname: '/questions/analysis', state: { data: { answer, questions, time, result, paperInfo } }})
   }
   likeIt = async (id) => {
     this.setState({ likeIcon: 'loading' })
@@ -93,11 +97,17 @@ class DoQuestion extends Component {
     }
   }
   render () {
-    const { currentQuestion, questions, userAnswers, likeIcon, dislikeIcon } = this.state
+    const { 
+      currentQuestion, 
+      questions, 
+      userAnswers, 
+      likeIcon, 
+      dislikeIcon,
+      paperInfo } = this.state
+    const { difficultyLevels } =this.props.question
     let options = [],
     answerSheet = {background: 'rgb(41, 189, 185)',color: 'white'},
     ifAdvance   = true;
-    
     if ( userAnswers[currentQuestion] === undefined) {
       options = null
     } else {
@@ -113,20 +123,53 @@ class DoQuestion extends Component {
         }
       }
     }
+    let difficultStyle = {}
+    if (paperInfo !== null) {
+      switch (paperInfo.difficultyLevel) {
+        case 1: difficultStyle = { color: '#73d13d' } ;break;
+        case 2: difficultStyle = { color: '#1890ff' } ;break;
+        case 3: difficultStyle = { color: '#ff4d4f' } ;break;
+      }
+    }
     return (
       <section className="doQuestions">
-        <section className="doQuestions-papersInfo">
-          
-        </section>
+        {
+          paperInfo !== null ? (
+            <section className="doQuestions-papersInfo">
+              <div><img src={paperInfo.createBy.avatar} alt="贡献者头像" /></div>
+              <div>
+                <article>{paperInfo.title}</article>
+                <p>
+                  <label>贡献者</label>:
+                  <font>{paperInfo.createBy.nickName}</font>
+                </p>
+                <p>
+                  <label>创建时间</label>:
+                  <font>{paperInfo.createAt}</font>
+                </p>
+                <p>
+                  <label>题目数</label>:
+                  <font>{questions.length}</font>
+                </p>
+                <p>
+                  <label>难度</label>:
+                  <font style={difficultStyle}>{difficultyLevels[difficultyLevels.findIndex(e => e.id === paperInfo.difficultyLevel)].title}</font>
+                </p>
+              </div>
+            </section>
+          ) : <section></section>
+        }
         {
           questions.length !== 0 ? (
             <section className="doQuestions-questions">
               <div className="doQuestions-questions-header">
                 <div className="doQuestions-questions-header-left">
-                  <Progress strokeWidth={"1vw"} percent={((currentQuestion + 1)/questions.length * 100)} showInfo={false} />
+                  <Progress strokeWidth={15} percent={((currentQuestion + 1)/questions.length * 100)} showInfo={false} />
                   <span><font style={{color: '#28BEB8'}}>{currentQuestion + 1}</font>/{questions.length}</span>
                 </div>
-                <div className="doQuestions-questions-header-right">12312</div>
+                <div className="doQuestions-questions-header-right">
+                  <Timer showButton={false} ref="timer" className="doQuestions-questions-header-timer"/>
+                </div>
               </div>
               <div className="doQuestions-questions-content">
                 <div className="doQuestions-questions-content-title">

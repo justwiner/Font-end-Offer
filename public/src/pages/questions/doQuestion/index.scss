@@ -1,5 +1,59 @@
 .doQuestions {
-  padding: 5vw 10vw;
+  padding: 3vw 10vw;
+  .doQuestions-papersInfo {
+    letter-spacing: normal;
+    background: #fafafa;
+    border: 1px solid lightgray;
+    margin-bottom: 3vw;
+    padding: 2vw 2vw;
+    border-radius: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    div:nth-child(1) {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 25%;
+      img {
+        border-radius: 50%;
+        width: 10vw;
+      }
+    }
+    div:nth-child(2) {
+      width: 65%;
+      article {
+        font-size: 1.5vw;
+        margin-bottom: 1vw;
+      }
+      p {
+        margin: 0;
+        margin: .3vw 0;
+        display: flex;
+        align-items: center;
+        label {
+          width: 10%;
+          display: flex;
+          justify-content: flex-start;
+        }
+        font {
+          margin-left: 1vw;
+        }
+      }
+      p:nth-child(2) {
+        font {
+          color: #52c41a;
+          font-size: 1vw;
+        }
+      }
+      p:nth-child(3) {
+        font {
+          color: #8c8c8c
+        }
+      }
+    }
+  }
   .doQuestions-questions {
     .doQuestions-questions-header {
       background: rgba(0, 0, 0, .8);
@@ -25,6 +79,10 @@
         width: 20%;
         display: flex;
         justify-content: flex-end;
+        .doQuestions-questions-header-timer {
+          letter-spacing: .2vw;
+          font-size: 1vw;
+        }
       }
     }
     .doQuestions-questions-content {
@@ -107,22 +165,17 @@
       }
       .ant-collapse-content-box {
         display: flex;
+        flex-wrap: wrap;
         span {
           width: 3vw;
           height: 3vw;
-          margin: 0 .5vw;
+          margin: .2vw .5vw;
           display: flex;
           justify-content: center;
           align-items: center;
           color: lightgrey;
           cursor: pointer;
           transition: background .3s, color .3s;
-        }
-        span:first-child {
-          margin-left: 0
-        }
-        span:last-child {
-          margin-right: 0
         }
         span:hover {
           background: rgb(41, 189, 185);
