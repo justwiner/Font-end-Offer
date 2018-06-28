@@ -35,12 +35,24 @@ class QuestionService {
     return await QuestionService.questionServiceNoLogin.post('/papers', data)
   }
 
+  static async getQuestionsByIds (ids) {
+    return await QuestionService.questionServiceNoLogin.post('/questionsByIds', {ids})
+  }
+
   static async uploadQuestions (data) {
     return await QuestionService.questionService.post('/upload', data)
   }
 
   static async doQuesAtOnce (data) {
     return await QuestionService.questionService.post('/doQuesAtOnce', data)
+  }
+
+  static async likeIt (questionId) {
+    return await QuestionService.questionService.post('/likeIt', {questionId})
+  }
+
+  static async dislikeIt (questionId) {
+    return await QuestionService.questionService.post('/dislikeIt', {questionId})
   }
 }
 

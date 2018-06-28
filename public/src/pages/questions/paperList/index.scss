@@ -18,7 +18,7 @@
       justify-content: flex-start;
       margin: .5vw 0;
       label {
-        width: 6vw;
+        width: 8vw;
         display: flex;
         justify-content: flex-end;
       }
@@ -70,6 +70,7 @@
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
+        font-size: .8vw;
         span font {
           color: rgb(41, 189, 185)
         }

@@ -2,10 +2,17 @@ import React, { Component } from 'react'
 import {Foot, Head} from '../components'
 import {BrowserRouter, Route} from 'react-router-dom'
 import {Home, About , Upload , Questions, Register} from '../pages'
+import {message} from 'antd'
 import './index.scss'
 import {connect} from 'react-redux'
 import Actions from '../actions'
 import {bindActionCreators} from 'redux'
+
+message.config({
+  top: '7vw',
+  duration: 2,
+  maxCount: 3,
+});
 
 class App extends Component {
   render () {

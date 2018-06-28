@@ -69,6 +69,46 @@ const QuestionsService = ( () => {
         return error
       }
     }
+
+    static async likeIt (questionId, userId) {
+      try {
+        const result = await Question.find({ '_id': questionId, 'like': { '$in': [userId] } })
+        if ( result === null || result.length === 0 ) {
+          await Question.update({ '_id': questionId }, { '$push': {'like' : userId} })
+          return {
+            success: true,
+            message: '谢谢你的支持！'
+          }
+        }
+        return {
+          success: false,
+          message: '你已经点过赞啦！'
+        }
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
+
+    static async dislikeIt (questionId, userId) {
+      try {
+        const result = await Question.find({ '_id': questionId, 'dislike': { '$in': [userId] } })
+        if ( result === null || result.length === 0 ) {
+          await Question.update({ '_id': questionId }, { '$push': {'dislike' : userId} })
+          return {
+            success: true,
+            message: '谢谢你的反馈！'
+          }
+        }
+        return {
+          success: false,
+          message: '你已经讨厌过它一次了~'
+        }
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
   }
   return QuestionsService
 })()

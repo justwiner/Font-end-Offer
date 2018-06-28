@@ -72,7 +72,7 @@ class QuestionsList extends Component {
       message.warn('请先登录！', 2)
       return
     }
-    console.log(question)
+    this.props.history.push({ pathname: '/questions/do', state: { data: [question], type: 0 } })
   }
   render () {
     const { questions, total, page, size } = this.state,

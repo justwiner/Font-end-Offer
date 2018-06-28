@@ -85,6 +85,21 @@ let QuestionNoLoginService = (() => {
         total
       }
     }
+    static async getQuestionsByIds (ids) {
+      try {
+        const questionsPromise = ids.map(e => Question.find({ id: e }))
+        let questions = await Promise.all(questionsPromise)
+        questions = questions.map(item => item[0])
+        return {
+          success: true,
+          message: '获取问题成功!',
+          questions
+        }
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
   }
   return QuestionNoLoginService
 })()

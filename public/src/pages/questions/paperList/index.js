@@ -61,6 +61,14 @@ class PaperList extends Component {
       message.error(data.message, 2)
     }
   }
+  doQuestions = (paper) => {
+    const { user } = this.props
+    if ( user.avatar === '' ) {
+      message.warn('请先登录之后，再查看试卷。')
+      return
+    }
+    this.props.history.push({ pathname: '/questions/do', state: { data: paper, type: 1 } })
+  }
   render () {
     const { difficultyLevels, sortBy } = this.props.question
     const { currentDifficultyLevel, currentSortBy, total, papers, size, page } = this.state
@@ -103,7 +111,9 @@ class PaperList extends Component {
                 case 3: style = { color: '#ff4d4f' } ;break;
               }
               return (
-                <section key={index} className="question-paper-content-item">
+                <section onClick={() => {
+                  this.doQuestions(item)
+                }} key={index} className="question-paper-content-item">
                   <article>{item.title}</article>
                   <p>
                     <img src={item.createBy.avatar} alt={item.createBy.nickName}/>

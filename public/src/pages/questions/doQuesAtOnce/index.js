@@ -34,11 +34,15 @@ class DoQuesAtOnce extends Component {
     const data = (await QuestionService.doQuesAtOnce({currentChapter, currentDifficults, questionNum})).data
     loading()
     if (data.success) {
+      if ( data.questions.length === 0 ) {
+        message.warn('暂时未发现此类型的题目...')
+        return
+      }
       message.success(data.message, 2)
       this.setState({
         visible: false,
       });
-      console.log(data)
+      this.props.history.push({ pathname: '/questions/do', state: { data: data.questions, type: 0 } })
     } else {
       message.error(data.message, 2)
     }
