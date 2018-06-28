@@ -89,11 +89,12 @@
         letter-spacing: normal;
         padding: 2vw 1vw;
         .questions-options-result {
-          width: 30%;
           display: flex;
-          justify-content: space-between;
           align-items: center;
           padding-bottom: 2vw;
+          span {
+            margin-right: 1vw;
+          }
         }
         .questions-options-content {
           .question-answer-options {

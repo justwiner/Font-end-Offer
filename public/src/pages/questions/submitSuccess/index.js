@@ -36,6 +36,9 @@ class SubmitSuccess extends Component {
     return answer
   }
   getUserAnswer = (userAnswers) => {
+    if (userAnswers === undefined) {
+      return []
+    }
     return userAnswers.map(e => e)
   }
   handleClick = index => {
@@ -122,7 +125,7 @@ class SubmitSuccess extends Component {
                 </span>
                 <span>
                   <label>你的答案：</label>
-                  <font>{ userAnswers.map(e => OPTION[e] + ' ') }</font>
+                  <font>{ userAnswers.length === 0 ? '无' : userAnswers.map(e => OPTION[e] + ' ') }</font>
                 </span>
                 <span>
                   { result[currentQuestion] ? <font style={{color: '#52c41a'}}>(正确)</font> : <font style={{color: '#ff7875'}}>(错误)</font> }
@@ -132,6 +135,7 @@ class SubmitSuccess extends Component {
                 {
                   questions[currentQuestion].options.map((item, index) => {
                     let style = {}
+                    console.log({ userAnswers, trueAnswers })
                     if ( userAnswers.includes(index) ) {
                       style = { borderColor: 'rgb(255, 120, 117)' }
                     }
