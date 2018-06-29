@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import Classify from '../../../asset/classify.png'
+import Classify from '../../../../asset/classify.png'
 import {message} from 'antd'
-import {QuestionService} from '../../../lib'
+import {QuestionService} from '../../../../lib'
 import './index.scss'
 
 class ChapterClassify extends Component {

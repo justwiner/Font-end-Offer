@@ -37,10 +37,11 @@
     margin-top: 3vw;
     padding: 0 5vw;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     letter-spacing: normal;
     .question-paper-content-item {
+      margin: 1vw 1vw;
       width: 15vw;
       background: #f5f5f5;
       padding: 1vw;

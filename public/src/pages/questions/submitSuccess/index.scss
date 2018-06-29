@@ -34,6 +34,43 @@
         letter-spacing: .3vw;
       }
     }
+    p:last-child {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      label {
+        display: flex;
+        align-items: center;
+        margin:0 1vw;
+        cursor: pointer;
+        font {
+          letter-spacing: normal;
+        }
+        i {
+          transition: all .3s;
+        }
+      }
+      label:first-child:hover {
+        i {
+          color: #52c41a
+        }
+        font {
+          color: #52c41a
+        }
+      }
+      label:last-child:hover {
+        i {
+          color: #ff7875
+        }
+        font {
+          color: #ff7875
+        }
+      }
+      span {
+        height: 1vw;
+        border-right: 1px solid lightgrey;
+      }
+    }
   }
   .doQuestions-analysis-answer {
     width: 80%;
@@ -59,25 +96,34 @@
         align-items: center;
         justify-content: flex-start;
         flex-wrap: wrap;
-        height: 3.5vw;
         padding-bottom: 1vw;
         border-bottom: 1px solid #eee;
         li {
           list-style: none;
           color: white;
-          margin: 0 .5vw;
+          margin: .5vw .5vw;
           display: flex;
           justify-content: center;
           align-self: center;
           width: 1.7vw;
-          height: 1.7vw;
-          line-height: 1.7vw;
+          height: 2.5vw;
+          background: transparent;
           cursor: pointer;
-          transition: all .1s;
+          span {
+            display: flex;
+            justify-content: center;
+            align-self: center;
+            width: 100%;
+            transition: all .1s;
+            height: 1.7vw;
+            line-height: 1.7vw;
+          }
         }
         li:hover {
-          height: 2.5vw;
+          span {
+            height: 2.5vw;
           line-height: 2.5vw;
+          }
         }
       }
       .questions-title {
@@ -105,6 +151,15 @@
           }
         }
       }
+    }
+  }
+  .doQuestions-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    button {
+      margin: 0 2vw;
     }
   }
 }

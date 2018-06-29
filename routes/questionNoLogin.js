@@ -10,11 +10,6 @@ router.post('/questions', async (req, res) => {
   res.json(await QuestionNoLoginService.getQuestions(currentChapter, currentDifficults, currentSortBy, size, page, key))
 })
 
-router.post('/papers', async (req, res) => {
-  const {currentDifficults, sortBy, size, page, key} = req.body
-  res.json(await QuestionNoLoginService.getPapers(currentDifficults, sortBy, size, page, key))
-})
-
 router.post('/questionsByIds', async (req, res) => {
   const {ids} = req.body
   res.json(await QuestionNoLoginService.getQuestionsByIds(ids))

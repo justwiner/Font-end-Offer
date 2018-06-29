@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {Input, message, Pagination} from 'antd'
-import {QuestionService} from '../../../lib'
+import {PaperService} from '../../../../lib'
 import timeago from 'timeago.js'
-import Paper from '../../../asset/papers.png'
+import Paper from '../../../../asset/papers.png'
 import './index.scss'
 
 const Search = Input.Search;
@@ -53,7 +53,7 @@ class PaperList extends Component {
   }
   getPaper = async (currentDifficultyLevel, key, currentSortBy, page, size) => {
     const loading = message.loading('正在获取试卷...', 0)
-    const data = (await QuestionService.getPapers({ currentDifficults: currentDifficultyLevel, key, sortBy: currentSortBy, page, size })).data
+    const data = (await PaperService.getPapers({ currentDifficults: currentDifficultyLevel, key, sortBy: currentSortBy, page, size })).data
     loading()
     if (data.success) {
       this.setState({ total: data.total, papers: data.papers })
@@ -111,9 +111,10 @@ class PaperList extends Component {
                 case 3: style = { color: '#ff4d4f' } ;break;
               }
               return (
-                <section onClick={() => {
-                  this.doQuestions(item)
-                }} key={index} className="question-paper-content-item">
+                <section 
+                  onClick={() => {this.doQuestions(item)}} 
+                  key={index} 
+                  className="question-paper-content-item">
                   <article>{item.title}</article>
                   <p>
                     <img src={item.createBy.avatar} alt={item.createBy.nickName}/>

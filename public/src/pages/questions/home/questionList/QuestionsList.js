@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Input, message, Pagination } from 'antd'
 import timeago from 'timeago.js'
-import {QuestionService,DateParse} from '../../../lib'
+import {QuestionService} from '../../../../lib'
 const Search = Input.Search;
 
 class QuestionsList extends Component {
@@ -83,7 +83,7 @@ class QuestionsList extends Component {
         
         <section className="question-list-detail">
           {
-            questions.length !== 0 
+            questions.length !== 0
               ? (
               <div className="question-list-found">
                 <table>

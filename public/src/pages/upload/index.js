@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Route} from 'react-router-dom'
 import {message} from 'antd'
 import ChooseType from './ChooseType'
-import CreateQuestions from'./CreateQuestions'
+import CreateQuestions from'./createQuestion'
 import CreateSuccess from './CreateSuccess'
 import './index.scss'
 

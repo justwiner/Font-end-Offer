@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Questions from '../../../asset/questions.png'
+import Questions from '../../../../asset/questions.png'
 import QuestionsList from './QuestionsList'
 import './index.scss'
 

@@ -18,7 +18,7 @@ class QuestionService {
         'x-access-token': UserService.token
       }
     })
-    service.defaults.timeout = 12000;
+    service.defaults.timeout = config.timeOut;
 
     return service
   }

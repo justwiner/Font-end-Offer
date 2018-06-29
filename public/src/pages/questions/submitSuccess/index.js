@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
-import {Icon} from 'antd'
+import {Button, Select, message} from 'antd'
 import answers from '../../../asset/answers.png'
+import AnalysisInfo from './AnalysisInfo'
+import QuestionAnswerInfo from './QuestionAnswerInfo'
+import FastDoQuestionModal from '../fastDoQuestionModal'
 import './index.scss'
-
-const OPTION = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 class SubmitSuccess extends Component {
   state = {
-    currentQuestion: 0
+    currentQuestion: 0,
+    visible: false,
+    paperInfo: null
+  }
+  componentWillMount () {
+    const {paperInfo} = this.props.location.state.data
+    this.setState ({ paperInfo })
   }
   getResults = (result) => {
     let trueNum = 0
@@ -44,62 +51,39 @@ class SubmitSuccess extends Component {
   handleClick = index => {
     this.setState({ currentQuestion: index })
   }
-  render () {
-    const { result, questions, answer, paperInfo, time } = this.props.location.state.data
-    const { currentQuestion } = this.state
-    const { difficultyLevels } = this.props.question
-    console.log({ result, questions, answer, paperInfo, time })
-    const mark = this.getResults(result)
-    let difficultStyle = {}
-    if (paperInfo !== null) {
-      switch (paperInfo.difficultyLevel) {
-        case 1: difficultStyle = { color: '#73d13d' } ;break;
-        case 2: difficultStyle = { color: '#1890ff' } ;break;
-        case 3: difficultStyle = { color: '#ff4d4f' } ;break;
-      }
+  showModal = () => {
+    const { user } = this.props
+    if ( user.avatar === '' ) {
+      message.warn('请先登录！',2)
+      return
     }
+    this.setState({ visible: true })
+  }
+  changePaperInfo = (type) => {
+    const { paperInfo } = this.state
+    
+    switch (type) {
+      case 0: paperInfo.like.push('temp'); this.setState({ paperInfo }); break;
+      case 1: paperInfo.dislike.push('temp'); this.setState({ paperInfo }); break;
+      default : return
+    }
+  }
+  render () {
+    const { result, questions, answer, time } = this.props.location.state.data
+    const { currentQuestion, paperInfo } = this.state
+    const { difficultyLevels } = this.props.question
+    const mark = this.getResults(result)
     let trueAnswers = this.getTrueAnswer(questions[currentQuestion]),
         userAnswers = this.getUserAnswer(answer[currentQuestion])
     return (
       <section className="doQuestions-analysis">
-        <section className="doQuestions-analysis-report">
-          <article>
-            <Icon type="pie-chart" />
-            <font>分数 : { mark.mark }</font>
-          </article>
-          {
-            paperInfo !== null ? (
-              <p>
-                <label>试卷</label>:
-                <font>{paperInfo.title}</font>
-              </p>
-            ) : <p />
-          }
-          {
-            paperInfo !== null ? (
-              <p>
-                <label>难度</label>:
-                <font style={difficultStyle}>{difficultyLevels.find(e => e.id === paperInfo.difficultyLevel).title}</font>
-              </p>
-            ) : <p />
-          }
-          <p>
-            <label>正确数</label>:
-            <font>
-              <span style={{color: '#52c41a'}}>{mark.trueNum}</span>
-              /
-              <span>{mark.total}</span>
-            </font>
-          </p>
-          <p>
-            <label>得分</label>:
-            <font style={{color: '#ff7875'}}>{mark.mark}</font>
-          </p>
-          <p>
-            <label>用时</label>:
-            <font style={{color: '#52c41a'}}>{time}</font>
-          </p>
-        </section>
+        <AnalysisInfo 
+        time={time} 
+        paperInfo= { paperInfo } 
+        difficultyLevels={difficultyLevels} 
+        mark={mark}
+        changePaperInfo={this.changePaperInfo}
+        {...this.props}/>
         <section className="doQuestions-analysis-answer">
           <article>
             <img src={answers} alt="答案解析" />
@@ -112,41 +96,20 @@ class SubmitSuccess extends Component {
                   let style = {}
                   style = e ? {background: 'rgb(41, 189, 185)'} : {background: 'rgb(255, 120, 117)'}
                   style = (currentQuestion === index) ? Object.assign({}, { height: '2.5vw',lineHeight: '2.5vw' }, style) : style
-                  return <li onClick={() => {this.handleClick(index)}} style={style} key={index}>{index + 1}</li>
+                  return <li onClick={() => {this.handleClick(index)}} key={index}><span style={style}>{index + 1}</span></li>
                 })
               }
             </ul>
-            <section className="questions-title">{questions[currentQuestion].title}</section>
-            <section className="questions-options">
-              <div className="questions-options-result">
-                <span>
-                  <label>正确答案：</label>
-                  <font>{ trueAnswers.map(e => OPTION[e] + ' ') }</font>
-                </span>
-                <span>
-                  <label>你的答案：</label>
-                  <font>{ userAnswers.length === 0 ? '无' : userAnswers.map(e => OPTION[e] + ' ') }</font>
-                </span>
-                <span>
-                  { result[currentQuestion] ? <font style={{color: '#52c41a'}}>(正确)</font> : <font style={{color: '#ff7875'}}>(错误)</font> }
-                </span>
-              </div>
-              <div className="questions-options-content">
-                {
-                  questions[currentQuestion].options.map((item, index) => {
-                    let style = {}
-                    console.log({ userAnswers, trueAnswers })
-                    if ( userAnswers.includes(index) ) {
-                      style = { borderColor: 'rgb(255, 120, 117)' }
-                    }
-                    if ( trueAnswers.includes(index) ) {
-                      style = { borderColor: 'rgb(41, 189, 185)' }
-                    }
-                    return <div style={style} className="question-answer-options" key={index}>{ item.label }</div>
-                  })
-                }
-              </div>
-            </section>
+            <QuestionAnswerInfo 
+            question= {questions[currentQuestion]} 
+            trueAnswers={trueAnswers}  
+            userAnswers= {userAnswers} 
+            result= {result[currentQuestion]}/>
+          </section>
+          <section className="doQuestions-button">
+            <Button onClick={() => { this.props.history.push('/questions') }}>返回题库</Button>
+            <Button onClick={this.showModal} type="primary">再战</Button>
+            <FastDoQuestionModal visible={this.state.visible} { ...this.props }/>
           </section>
         </section>
       </section>

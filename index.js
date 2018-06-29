@@ -11,6 +11,8 @@ const commonRouter = require('./routes/common')
 const questionNoLogin = require('./routes/questionNoLogin')
 const userRouter = require('./routes/user')
 const questionRouter = require('./routes/questions')
+const paperNoLogin = require('./routes/paperNoLogin')
+const paper = require('./routes/paper')
 
 const app = express()
 
@@ -37,6 +39,7 @@ app.use(cookieParser())
 */
 app.use('/api/common', commonRouter)
 app.use('/api/questionN', questionNoLogin)
+app.use('/api/paperN', paperNoLogin)
 /*
   API路由处理：拦截验证JWT
 */
@@ -64,6 +67,7 @@ app.use('/api', jwtRouter)
 */
 app.use('/api/user', userRouter)
 app.use('/api/question', questionRouter)
+app.use('/api/paper', paper)
 
 app.use(function(req, res, next) {
   next(createError(404));

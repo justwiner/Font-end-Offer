@@ -50,8 +50,6 @@ class Section extends Component {
             </div>
             )
         }
-
-        
       </section>
     )
   }
