@@ -12,6 +12,9 @@ a {
 a:focus {
   text-decoration: none;
 }
+a:hover {
+  color: #28BEB8;
+}
 
 ::-webkit-scrollbar-track-piece { //滚动条凹槽的颜色，还可以设置边框属性
   background-color:#f8f8f8;

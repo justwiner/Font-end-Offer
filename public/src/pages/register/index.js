@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, message, Icon } from 'antd'
+import { Form, Input, Button, message, Icon, notification  } from 'antd'
 import {Captcha} from '../../components'
 import {Service,UserService} from '../../lib'
 import './index.scss'
@@ -56,7 +56,10 @@ class Register extends Component {
             if (data.success) {
               message.success(mes)
               this.setState({registerLoading: false})
-              this.props.actions.login(data)
+              notification.open({
+                message: '请激活账号',
+                description: data.message,
+              });
               this.props.history.push('/')
             } else {
               message.error(mes)

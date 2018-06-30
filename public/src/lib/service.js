@@ -21,6 +21,10 @@ class Service {
   static async checkEMail (data) {
     return await Service.CommonService.post('/checkEMail',data)
   }
+
+  static async findPass (data) {
+    return await Service.CommonService.post('/findPass',data)
+  }
 }
 
 export default Service;

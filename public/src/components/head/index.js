@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import {Dropdown, Menu, Icon, Modal, Input, message} from 'antd'
+import {Dropdown, Menu, Icon, Modal, Input, message, notification } from 'antd'
 import {Service} from '../../lib'
 import './index.scss'
+
+const emailReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
 
 class Head extends Component {
   constructor (props) {
@@ -81,7 +83,6 @@ class Head extends Component {
     );
     return menu
   }
-
   showModal = () => {
     this.setState({
       visible: true,
@@ -96,7 +97,22 @@ class Head extends Component {
       this.props.actions.login(data)
       this.handleCancel()
     } else {
-      message.error(data.message)
+      if ( data.status === undefined ) {
+        message.error(data.message)
+        return
+      }
+      switch (data.status) {
+        case 0: message.warn(data.message) ; break;
+        case 1: {
+          const args = {
+            message: '未被激活',
+            description: data.message
+          };
+          notification.open(args);
+        }; break;
+        case 2: message.warn(data.message) ; break;
+        default: break;
+      }
     }
     this.setState({confirmLoading: false})
   }
@@ -108,12 +124,29 @@ class Head extends Component {
       key: Math.random()
     })
   }
-
   inputeMail = e => {
     this.setState({ eMail: e.target.value })
   }
   inputPassword = e => {
     this.setState({ password: e.target.value })
+  }
+  findPass = async () => {
+    const {eMail} = this.state
+    if ( emailReg.test(eMail) ) {
+      const loading = message.loading('正在重置密码...', 0)
+      const result = (await Service.findPass({email: eMail})).data
+      loading()
+      if (result.success) {
+        notification.open({
+          message: '重置密码成功',
+          description: result.message
+        })
+      } else {
+        message.error(result.message)
+      }
+    } else {
+      message.warn('请输入正确的邮箱格式！')
+    }
   }
   render () {
     const { user } = this.props
@@ -155,6 +188,8 @@ class Head extends Component {
           <p><Input size="large" autoComplete="email" onChange={this.inputeMail} placeholder="请输入邮箱" /></p>
           <br/>
           <p><Input size="large" autoComplete="new-password" type="password" onChange={this.inputPassword} placeholder="请输入密码" /></p>
+          <a onClick={ this.findPass } style={{float:'right'}}>忘记密码？</a>
+          <br/>
         </Modal>
       </header>
     )

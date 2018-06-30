@@ -27,7 +27,7 @@ const QuestionsService = ( () => {
             title,
             options,
             answers,
-            createAt: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+            createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
             createBy: userId,
             like: [],
             dislike: []
@@ -37,7 +37,7 @@ const QuestionsService = ( () => {
           const createPaperPromise = Paper.create({
             title: _data.title,
             questions: uuids,
-            createAt: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+            createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
             difficultyLevel: Math.round(difficultyLevels / data.length),
             createBy: userId,
             like: [],

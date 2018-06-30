@@ -3,15 +3,14 @@ import {Cookie,Config} from '../lib'
 
 export const login = (data) => {
   const { nickName, avatar, eMail } = data.user,
-    id = data.user._id,
     token = data.token,
     user = {
-      id,
       nickName,
       avatar,
-      token
+      token,
+      eMail
     }
-  Cookie.set('user', JSON.stringify({id,nickName,avatar}), Config.cookies.userInfo)
+  Cookie.set('user', JSON.stringify({nickName, avatar, eMail}), Config.cookies.userInfo)
   Cookie.set('token', token, Config.cookies.token)
   return {
     type: ActionTypes.LOGIN,

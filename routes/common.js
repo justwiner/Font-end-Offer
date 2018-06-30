@@ -20,4 +20,16 @@ router.post('/checkEMail', async (req, res, next) => {
   res.json(result)
 })
 
+router.get('/checkActive', async (req, res) => {
+  const { email, token } = req.query
+  const result = await CommonService.checkActive( email, token )
+  res.json(result)
+})
+
+router.post('/findPass', async (req, res) => {
+  const { email } = req.body
+  const result = await CommonService.findPass( email )
+  res.json(result)
+})
+
 exports = module.exports = router

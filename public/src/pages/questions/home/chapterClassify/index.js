@@ -17,9 +17,6 @@ class ChapterClassify extends Component {
     }
     this.props.actions.setChapters(chapters)
   }
-  chapterOnClick (id) {
-    console.log(id)
-  }
   render () {
     const { chapters } = this.props.question
     return (
@@ -29,7 +26,7 @@ class ChapterClassify extends Component {
           {
             chapters.map((item, index) => {
               return (
-              <li key={index} onClick={this.chapterOnClick.bind(this, item.id)}>
+              <li key={index}>
                 <font>{item.title}</font>
                 <font>共 <font>{item.questionNum}</font> 道题目</font>
               </li>

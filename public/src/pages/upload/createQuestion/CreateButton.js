@@ -72,7 +72,6 @@ class CreateButton extends Component {
     } else {
       this.setState({ uploadLoading: true })
       const sortQuestions = this.sortQuestion(questions, false)
-      console.log(Object.assign({}, { battingType: false }, {data: sortQuestions}))
       const data = (await QuestionService.uploadQuestions(Object.assign({}, { battingType: false }, {data: sortQuestions}))).data
       data.success ? message.success(data.message) : message.error(data.message)
       this.setState({ uploadLoading: false })

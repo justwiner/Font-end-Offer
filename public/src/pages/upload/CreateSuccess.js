@@ -3,9 +3,6 @@ import {Icon, Button} from 'antd'
 import {Link} from 'react-router-dom'
 
 class CreateSuccess extends Component {
-  componentWillMount () {
-    // console.log(this.props)
-  }
   render () {
     return (
       <section className="create-success">

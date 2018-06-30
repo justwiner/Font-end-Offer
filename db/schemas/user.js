@@ -18,7 +18,18 @@ let User_Schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  token: String
+  code: {
+    type: String,
+    required: true
+  },
+  islive: {
+    type: Boolean,
+    required: true
+  },
+  createAt: {
+    type: Date,
+    required: true
+  }
 }, {
   versionKey: false
 })

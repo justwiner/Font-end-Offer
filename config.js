@@ -9,6 +9,11 @@ module.exports = {
     'jwtsecret': 'fontEndCommunity',
     'time': 60*60*24
   },
+  'email': {
+    'jwtsecret': 'activation',
+    'time': 60*60*24
+  },
   'database': 'mongodb://localhost:27017/fontFamily',
+  'front_url': 'http://localhost:1234/',
   'error': { 'success': false, 'message': '服务器出现问题' }
 };
