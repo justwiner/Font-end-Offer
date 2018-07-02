@@ -73,10 +73,10 @@ class Head extends Component {
     }
     const menu = (
       <Menu>
-        <Menu.Item>
+        <Menu.Item onClick={() => { this.props.history.push('/user') }}>
           <Icon type="user" /><span style={style}>个人中心</span>
         </Menu.Item>
-        <Menu.Item onClick={() => {this.props.actions.logout();window.location.href='/'}}>
+        <Menu.Item onClick={() => {this.props.actions.logout();this.props.history.push('/')}}>
           <Icon type="logout" /><span style={style}>退出</span>
         </Menu.Item>
       </Menu>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Foot, Head} from '../components'
 import {BrowserRouter, Route} from 'react-router-dom'
-import {Home, About , Upload , Questions, Register} from '../pages'
+import {Home, About , Upload , Questions, Register, User} from '../pages'
 import {message} from 'antd'
 import './index.scss'
 import {connect} from 'react-redux'
@@ -18,15 +18,18 @@ class App extends Component {
   render () {
     return (
       <BrowserRouter>
-        <div id="app">
-          <Head {...this.props}/>
-          <Route exact path="/" component = {Home}/>
-          <Route path="/upload" render={(props) => <Upload {...Object.assign(props,this.props)}/>} />
-          <Route path="/about" component = {About}/>
-          <Route path="/questions" render={(props) => <Questions {...Object.assign(props,this.props)}/>}/>
-          <Route exact path="/register" render={(props) => <Register {...Object.assign(props,this.props)}/>} />
-          <Foot />
-        </div>
+        <Route path = '/'  render = {(props) => (
+          <div id="app">
+            <Head {...Object.assign(props,this.props)} {...this.props}/>
+            <Route exact path="/" component = {Home}/>
+            <Route path="/upload" render={(props) => <Upload {...Object.assign(props,this.props)}/>} />
+            <Route path="/about" component = {About}/>
+            <Route path="/questions" render={(props) => <Questions {...Object.assign(props,this.props)}/>}/>
+            <Route exact path="/register" render={(props) => <Register {...Object.assign(props,this.props)}/>} />
+            <Route path="/user" render={(props) => <User {...Object.assign(props,this.props)}/>} />
+            <Foot />
+          </div>
+        )} />
       </BrowserRouter>
     )
   }
