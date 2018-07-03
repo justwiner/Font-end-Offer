@@ -29,6 +29,24 @@ let User_Schema = new mongoose.Schema({
   createAt: {
     type: Date,
     required: true
+  },
+  gender: {
+    type: Number
+  },
+  address: {
+    type: String
+  },
+  education: {
+    type: Number
+  },
+  graduateTime: {
+    type: Number
+  },
+  school: {
+    type: Number
+  },
+  expecteCompany: {
+    type: String
   }
 }, {
   versionKey: false

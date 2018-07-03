@@ -84,7 +84,8 @@ class ChangePass extends Component {
       },
     };
     return (
-      <section>
+      <section className="userInfo-right-pass">
+        <article className="userInfo-right-pass-title">密码修改</article>
         <Form onSubmit={this.handleSubmit}>
           <FormItem
             {...formItemLayout}

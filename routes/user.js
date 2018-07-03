@@ -16,4 +16,8 @@ router.post('/avatar', async (req, res) => {
   res.json(await UserService.uploadAvatar(avatar, req.user))
 })
 
+router.get('/info', async (req, res) => {
+  res.json(await UserService.userInfo(req.user._id))
+})
+
 exports = module.exports = router

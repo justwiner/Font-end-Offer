@@ -33,13 +33,13 @@ class Avatar extends Component {
     }
     contentStyle = Object.assign({}, style, contentStyle)
     return (
-      <p className={`${className} avatar-content`} style={contentStyle}>
+      <span className={`${className} avatar-content`} style={contentStyle}>
         <img className="avatar" style={imgStyle} src={url} alt="用户头像" />
         <input style={{display: 'none'}} type="file" id="getFileValue" onChange={this.handleChange} accept="image/*" />
-        <div style={delayStyle} className="avatar-delay" onClick={() => document.getElementById('getFileValue').click()}>
+        <span style={delayStyle} className="avatar-delay" onClick={() => document.getElementById('getFileValue').click()}>
           <Icon type="upload" style={{fontSize: size}}/>
-        </div>
-      </p>
+        </span>
+      </span>
     )
   }
 }

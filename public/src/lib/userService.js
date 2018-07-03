@@ -37,6 +37,10 @@ class UserService {
   static async modifyAvatar (data) {
     return await UserService.CommonService.post('/avatar', data)
   }
+
+  static async userInfo () {
+    return await UserService.CommonService.get('/info')
+  }
 }
 
 export default UserService;

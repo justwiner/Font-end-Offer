@@ -39,6 +39,19 @@ let UserService = (() => {
         return config.error
       }
     }
+    static async userInfo (userId) {
+      try {
+        const user = await User.findOne({_id: userId})
+        return {
+          success: true,
+          message: '获取用户信息成功',
+          user
+        }
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
   }
   return UserService
 })()

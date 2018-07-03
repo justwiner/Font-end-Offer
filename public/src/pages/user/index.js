@@ -2,7 +2,7 @@ import React,{ Component } from 'react'
 import {Icon,message} from 'antd'
 import {Route, Link} from 'react-router-dom'
 import Home from './Home'
-import UserInfo from './UserInfo'
+import UserInfo from './userInfo/UserInfo'
 import ChangePass from './ChangePass'
 import {Avatar} from '../../components'
 import {UserService} from '../../lib'
@@ -43,7 +43,9 @@ class User extends Component {
     this.setState({ currentMenu: path })
   }
   onChange = async (value) => {
+    const loading = message.loading('头像上传中....',0)
     const result = (await UserService.modifyAvatar({ avatar: value })).data
+    loading()
     if (result.success) {
       message.success(result.message)
       this.props.actions.modifyUser(this.props.user.nickName, result.avatar)
@@ -64,7 +66,7 @@ class User extends Component {
                 url= {user.avatar}
                 border={true}
                 onChange={this.onChange}
-                size="5vw"/>
+                size="6vw"/>
             </p>
             <p><font>{user.nickName}</font></p>
           </section>
