@@ -1,0 +1,24 @@
+.avatar-content {
+  position: relative;
+  .avatar {
+    border-radius: 50%;
+  }
+  .avatar-delay {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: all .3s;
+    opacity: 0;
+    color: white;
+    i {
+      transform: scale(.3)
+    }
+  }
+  .avatar-delay:hover {
+    background: rgba(0, 0, 0, .5);
+    opacity: 1;
+  }
+}
