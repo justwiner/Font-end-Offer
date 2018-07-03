@@ -16,11 +16,6 @@
       p {
         margin-bottom: 2vw;
       }
-      img {
-        border-radius: 50%;
-        width: 5vw;
-        border: 1px solid #eee;
-      }
       font {
         width: 70%;
         word-wrap:break-word;
@@ -52,5 +47,44 @@
     width: 80%;
     background: #f3f5f7;
     padding: 2vw;
+    &-home {
+      &-achievement {
+        article {
+          font-weight: bold;
+          border-bottom: 1px solid lightgrey;
+          padding-bottom: .5vw;
+          width: 5%;
+          margin-bottom: 1vw;
+        }
+        &-content {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          section {
+            width: 30%;
+            background: white;
+            margin: 1vw;
+            padding: .5vw 1vw;
+            border: 1px solid transparent;
+            transition: all .3s;
+            cursor: pointer;
+            article {
+              width: 100%;
+              letter-spacing: normal;
+              i {
+                margin-left: .5vw;
+                color: rgb(41, 189, 185);
+              }
+            }
+          }
+          section:hover {
+            border: 1px solid rgba(41, 189, 185, .7);
+            box-shadow: 0 0px 3px rgba(41, 189, 185, .3);
+            transform: scale(1.05)
+          }
+        }
+      }
+    }
   }
 }

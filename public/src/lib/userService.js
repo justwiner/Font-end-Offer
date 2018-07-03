@@ -20,13 +20,22 @@ class UserService {
 
   static get CommonService () {
     let service = axios.create({
-      baseURL: `${config.url}/common`,
+      baseURL: `${config.url}/user`,
       header: {
         'x-access-token': UserService.token
       }
     })
+    service.defaults.headers = { 'x-access-token': UserService.token }
     service.defaults.timeout = config.timeOut;
     return service
+  }
+
+  static async modifyPass (data) {
+    return await UserService.CommonService.post('/pass', data)
+  }
+
+  static async modifyAvatar (data) {
+    return await UserService.CommonService.post('/avatar', data)
   }
 }
 

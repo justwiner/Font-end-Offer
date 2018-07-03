@@ -3,7 +3,8 @@ module.exports = {
     'port':2222
   },
   'user' : {
-    'defaultHead' : 'http://www.luyuwen.cn:8080/fontEndCommunity/avatar/default/defaultHead.jpg'
+    'defaultHead' : 'http://www.luyuwen.cn:8080/fontEndCommunity/avatar/default/defaultHead.jpg',
+    'baseAvatarUrl': 'http://localhost:8080/avatar/'
   },
   'tokenSet': {
     'jwtsecret': 'fontEndCommunity',

@@ -4,6 +4,10 @@ let config = {
   cookies: {
     userInfo: 3600,
     token: 3600
+  },
+  frontFamily: {
+    minPaperQuestionNum: 10,
+    maxPaperQuestionNum: 30
   }
 }
 

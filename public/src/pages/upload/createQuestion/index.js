@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { message } from 'antd'
-import {QuestionService} from '../../../lib'
+import {QuestionService, Config} from '../../../lib'
 import CreateTip from './CreateTip'
 import CreateButton from './CreateButton'
 import CreateQuestion from './CreateQuestion'
@@ -23,7 +23,7 @@ class CreateQuestions extends Component {
   }
   AddQuestion = type => {
     let { questions } = this.state
-    if ( questions.length === 30 ) {
+    if ( questions.length === Config.frontFamily.maxPaperQuestionNum ) {
       message.error('最多同时上传30道题目。')
       return
     }

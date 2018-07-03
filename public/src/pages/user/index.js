@@ -1,18 +1,15 @@
 import React,{ Component } from 'react'
-import {Icon} from 'antd'
+import {Icon,message} from 'antd'
 import {Route, Link} from 'react-router-dom'
 import Home from './Home'
 import UserInfo from './UserInfo'
 import ChangePass from './ChangePass'
+import {Avatar} from '../../components'
+import {UserService} from '../../lib'
 import './index.scss'
 
 class User extends Component {
   state = {
-    user: {
-      nickName: 'winer',
-      eMail: '392110917@qq.com',
-      avatar: 'http://tx.haiqq.com/uploads/allimg/170504/0U1292143-9.jpg'
-    },
     currentMenu: '/user',
     menu: [
       {
@@ -36,19 +33,39 @@ class User extends Component {
     ]
   }
   componentWillMount () {
+    if (this.props.user.avatar === '') {
+      message.warn('请登录之后，再进入个人中心！')
+      this.props.history.push('/')
+    }
     this.setState({ currentMenu: window.location.pathname })
   }
   setCurrentMenu = (path) => {
     this.setState({ currentMenu: path })
   }
+  onChange = async (value) => {
+    const result = (await UserService.modifyAvatar({ avatar: value })).data
+    if (result.success) {
+      message.success(result.message)
+      this.props.actions.modifyUser(this.props.user.nickName, result.avatar)
+    } else {
+      message.error(result.message)
+    }
+  }
   render () {
-    const {user, menu, currentMenu} = this.state
+    const {menu, currentMenu} = this.state
+    const {user} = this.props
     return (
       <section className="userInfo">
         <section className="userInfo-left">
           <section className="userInfo-left-header">
             <p>Front Family</p>
-            <p><img src={user.avatar} alt="用户头像" /></p>
+            <p>
+              <Avatar 
+                url= {user.avatar}
+                border={true}
+                onChange={this.onChange}
+                size="5vw"/>
+            </p>
             <p><font>{user.nickName}</font></p>
           </section>
           <section className="userInfo-left-menu">
@@ -79,7 +96,7 @@ class User extends Component {
         <section className="userInfo-right">
           <Route exact path="/user" render={() => <Home />} />
           <Route exact path="/user/info" render={() => <UserInfo />} />
-          <Route exact path="/user/pass" render={() => <ChangePass />} />
+          <Route exact path="/user/pass" render={() => <ChangePass {...this.props} />} />
         </section>
       </section>
     )

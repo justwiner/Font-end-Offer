@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Input, Button, Modal, message  } from 'antd'
-import {QuestionService} from '../../../lib'
+import {QuestionService, Config} from '../../../lib'
 
 class CreateButton extends Component {
   state = {
@@ -67,7 +67,7 @@ class CreateButton extends Component {
         return
       }
     }
-    if ( questions.length >= 2 ) {
+    if ( questions.length >= Config.frontFamily.minPaperQuestionNum ) {
       this.showModal()
     } else {
       this.setState({ uploadLoading: true })
@@ -117,7 +117,7 @@ class CreateButton extends Component {
             </Button>,
           ]}
         >
-          <p style={{letterSpacing: 'normal'}}>当上传的题目数量大于15题时，。</p>
+          <p style={{letterSpacing: 'normal'}}>当上传的题目数量不低于{Config.frontFamily.minPaperQuestionNum}题时，。</p>
           <p style={{letterSpacing: 'normal'}}>若选择以试卷方式上传，请输入试卷名称。</p>
           <Input size="large" maxLength={15} onChange = { (e) => { this.setState({ paperTitle: e.target.value }) } } placeholder="请输入试卷名" />
         </Modal>

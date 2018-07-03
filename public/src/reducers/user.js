@@ -4,14 +4,14 @@ import {UserService} from '../lib'
 const user = UserService.user
 
 let initialState = {
-  id: '', 
+  eMail: '', 
   nickName: '',
   avatar: ''
 }
 
 if ( user !== null ) {
   initialState = {
-    id: user.id, 
+    eMail: user.eMail, 
     nickName: user.nickName,
     avatar: user.avatar
   }
@@ -23,8 +23,11 @@ export default (state= initialState, action) => {
       return { ...state, ...action.user }
 
     case ActionTypes.LOGOUT : 
-      const user = { nickName: '', avatar: '', id: '' } 
+      const user = { nickName: '', avatar: '', eMail: '' } 
       return { ...state, ...user }
+
+    case ActionTypes.MODIFYUSER : 
+      return { ...state, ...action.user }
 
     default : return state
   }
