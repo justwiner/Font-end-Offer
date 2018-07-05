@@ -11,7 +11,7 @@ class CreateSuccess extends Component {
         <p>非常感谢你对社区的贡献，开发者代表Font Family 向你表示最真诚的谢意。</p>
         <p>
           <Link to='/questions'><Button type="primary" size="large">题库</Button></Link>
-          <Link to='/questions'><Button size="large">个人中心</Button></Link>
+          <Link to='/user'><Button size="large">个人中心</Button></Link>
         </p>
       </section>
     )

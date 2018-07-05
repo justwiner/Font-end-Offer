@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import { message, Button, Input, Select, Radio, Cascader  } from 'antd'
 import moment from 'moment'
+import {UserService} from '../../../lib'
 import schoolList from '../../../asset/chinaUniversityList'
 
 const Option = Select.Option;
@@ -15,7 +16,8 @@ class Modify extends Component {
     address: '',
     education: null,
     school: [],
-    expecteCompany: ''
+    expecteCompany: '',
+    graduateTime: null
   }
   componentWillMount () {
     this.resetState(this.props)
@@ -46,14 +48,18 @@ class Modify extends Component {
     return citySchool
   }
   resetState = props => {
-    const {nickName, gender, address, education, school, expecteCompany} = props.user
-    this.setState({nickName, gender, address, education, school, expecteCompany})
+    const {nickName, gender, address, education, school, expecteCompany, graduateTime} = props._user
+    this.setState({nickName, gender, address, education, school, expecteCompany, graduateTime})
   }
-  checkNickName = (rule, value, callback) => {
-    if ( regCn.test(value) || regEn.test(value) ) {
-      callback('昵称不应该包含特殊字符！')
+  checkNickName = () => {
+    const {nickName} = this.state
+    if (nickName === '') {
+      return {success: false, message: '请输入你的昵称！'}
     }
-    callback()
+    if ( regCn.test(nickName) || regEn.test(nickName) ) {
+      return {success: false, message: '昵称不应该包含特殊字符！'}
+    }
+    return {success: true, message: '昵称验证成功！'}
   }
   onChangeNickName = e => this.setState({ nickName: e.target.value })
   onChangeAddress = e => this.setState({ address: e.target.value })
@@ -76,29 +82,53 @@ class Modify extends Component {
     document.getElementById('showUserInfo').style.display = 'block'
     document.getElementById('modifyUserInfo').style.display = 'none'
   }
+  handleSubmit = async () => {
+    const checkRes = this.checkNickName()
+    if (checkRes.success) {
+      const {nickName, gender, address, education, school, expecteCompany, graduateTime} = this.state
+      const newUser = {nickName, gender, address, education, school, expecteCompany, graduateTime}
+      const loading = message.loading('正在提交你的数据...', 0)
+      const result = (await UserService.modify(newUser)).data
+      loading()
+      if ( result.success ) {
+        message.success(result.message)
+        this.props.modifyUser(newUser)
+        const oldReduxUser = this.props.user
+        if ( oldReduxUser.nickName !== nickName ) {
+          this.props.actions.modifyUser( nickName, oldReduxUser.avatar )
+        }
+        this.handleSave()
+      } else {
+        message.error(result.message)
+      }
+    } else {
+      message.warn(checkRes.message)
+    }
+  }
   render () {
     const {nickName, gender, address, education, graduateTime, school, expecteCompany} = this.state
-    const {user} = this.props
+    console.log(education)
+    const {_user} = this.props
     return (
       <section id="modifyUserInfo" className="userInfo-right-info-content userInfo-right-info-modify">
         <dl>
           <dt>我的昵称</dt>
           <dd>
-            <Input onChange={this.onChangeNickName} value={nickName} placeholder="请输入昵称"/>
+            <Input style={{width: '10vw'}} onChange={this.onChangeNickName} value={nickName} placeholder="请输入昵称"/>
           </dd>
         </dl>
         <dl>
           <dt>我的邮箱</dt>
-          <dd>{user.eMail}</dd>
+          <dd>{_user.eMail}</dd>
         </dl>
         <dl>
           <dt>加入日期</dt>
-          <dd>{moment(user.createAt).format('YYYY-MM-DD HH:mm:ss')}</dd>
+          <dd>{moment(_user.createAt).format('YYYY-MM-DD HH:mm:ss')}</dd>
         </dl>
         <dl>
           <dt>我的性别</dt>
           <dd>
-            <RadioGroup onChange = {this.onChangeGender} value={gender}>
+            <RadioGroup style={{width: '10vw'}} onChange = {this.onChangeGender} value={gender}>
               <Radio value={1}>男</Radio>
               <Radio value={2}>女</Radio>
             </RadioGroup>
@@ -106,7 +136,7 @@ class Modify extends Component {
         </dl>
         <dl>
           <dt>居住地</dt>
-          <dd><Input onChange={this.onChangeAddress} value={address} placeholder="请输入居住地地址"/></dd>
+          <dd><Input style={{width: '10vw'}} onChange={this.onChangeAddress} value={address} placeholder="请输入居住地地址"/></dd>
         </dl>
         <dl>
           <dt>学历</dt>
@@ -118,14 +148,14 @@ class Modify extends Component {
               optionFilterProp="children"
               value={education}
               onChange={this.onChangeEducation}>
-              <Option value="8">博士后</Option>
-              <Option value="7">博士</Option>
-              <Option value="6">硕士</Option>
-              <Option value="5">本科</Option>
-              <Option value="4">专科</Option>
-              <Option value="3">高中</Option>
-              <Option value="2">初中</Option>
-              <Option value="1">小学</Option>
+              <Option value={8}>博士后</Option>
+              <Option value={7}>博士</Option>
+              <Option value={6}>硕士</Option>
+              <Option value={5}>本科</Option>
+              <Option value={4}>专科</Option>
+              <Option value={3}>高中</Option>
+              <Option value={2}>初中</Option>
+              <Option value={1}>小学</Option>
             </Select>
           </dd>
         </dl>
@@ -150,6 +180,7 @@ class Modify extends Component {
           <dd>
             <Cascader 
               value={school} 
+              style={{width: '10vw'}}
               options={this.setSchoolCascader()}
               placeholder="请选择你的大学"
               onChange={this.onChangeSchool} />
@@ -157,13 +188,13 @@ class Modify extends Component {
         </dl>
         <dl>
           <dt>我的目标公司</dt>
-          <dd><Input onChange={this.onChangeExpecteCompany} value={expecteCompany} placeholder="请输入你想去的公司"/></dd>
+          <dd><Input style={{width: '10vw'}} onChange={this.onChangeExpecteCompany} value={expecteCompany} placeholder="请输入你想去的公司"/></dd>
         </dl>
         <dl>
-          <dt>
+          <div className="modify-userInfo-button">
             <Button onClick={this.handleSave}>取消</Button>
-            <Button type="primary">保存</Button>
-          </dt>
+            <Button type="primary" onClick={this.handleSubmit}>保存</Button>
+          </div>
         </dl>
       </section>
     )

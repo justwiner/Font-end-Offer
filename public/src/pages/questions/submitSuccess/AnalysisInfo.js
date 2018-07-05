@@ -10,14 +10,24 @@ class AnalysisInfo extends Component {
     dislikeNum: 0
   }
   async componentWillMount () {
-    const {_id} = this.props.paperInfo
+    const {paperInfo} = this.props
+    if (paperInfo === null) {
+      return
+    }
     let results = await Promise.all([
-      PaperService.getLike(_id),
-      PaperService.getDislike(_id)
+      PaperService.getLike(paperInfo._id),
+      PaperService.getDislike(paperInfo._id)
     ])
     this.setState({
       likeNum: results[0].data.likes.length,
       dislikeNum: results[1].data.dislikes.length
+    })
+  }
+  componentWillReceiveProps (nextProps) {
+    const {like, dislike} = nextProps.paperInfo
+    this.setState({
+      likeNum: like.length,
+      dislikeNum: dislike.length
     })
   }
   setScore = async (type, id) => {
@@ -100,17 +110,21 @@ class AnalysisInfo extends Component {
           <label>用时</label>:
           <font style={{color: '#52c41a'}}>{time}</font>
         </p>
-        <p>
-          <label onClick={() => this.setScore(0, paperInfo._id)}>
-            <Icon type={likeIcon}/>
-            <font>{ likeNum }</font>
-          </label>
-          <span></span>
-          <label onClick={() => this.setScore(1, paperInfo._id)}>
-            <Icon type={dislikeIcon}/>
-            <font>{ dislikeNum }</font>
-          </label>
-        </p>
+        {
+          paperInfo !== null ? (
+            <p>
+              <label onClick={() => this.setScore(0, paperInfo._id)}>
+                <Icon type={likeIcon}/>
+                <font>{ likeNum }</font>
+              </label>
+              <span></span>
+              <label onClick={() => this.setScore(1, paperInfo._id)}>
+                <Icon type={dislikeIcon}/>
+                <font>{ dislikeNum }</font>
+              </label>
+            </p>
+          ) : <p></p>
+        }
       </section>
     )
   }

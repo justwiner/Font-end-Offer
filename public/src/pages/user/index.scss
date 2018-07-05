@@ -110,6 +110,7 @@
         dl {
           display: flex;
           align-items: center;
+          height: 2.1vw;
           dt {
             width: 20%;
             text-align: right;
@@ -118,10 +119,16 @@
           dd {
             margin-left: 2vw;
             letter-spacing: .1vw;
-            font-size: .9vw;
+            font-size: .75vw;
             color: #999;
-            .ant-form-item {
-              margin-bottom: 0;
+            margin-bottom: 0;
+          }
+          .modify-userInfo-button {
+            display: flex;
+            justify-content: flex-end;
+            width: 35%;
+            button {
+              margin-left: 2vw;
             }
           }
         }

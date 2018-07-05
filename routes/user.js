@@ -20,4 +20,9 @@ router.get('/info', async (req, res) => {
   res.json(await UserService.userInfo(req.user._id))
 })
 
+router.post('/modify', async (req, res) => {
+  const {nickName, gender, address, education, school, expecteCompany, graduateTime} = req.body
+  res.json(await UserService.modify({nickName, gender, address, education, school, expecteCompany, graduateTime} ,req.user._id))
+})
+
 exports = module.exports = router

@@ -18,13 +18,14 @@ class UserInfo extends Component {
       message.error(result.message)
     }
   }
+  modifyUser = newUser => this.setState({ user: Object.assign({}, this.state.user, newUser) })
   render () {
     const { user } = this.state
     return (
       <section className="userInfo-right-info">
         <article className="userInfo-right-info-title">个人信息</article>
-        <Show user = {user} />
-        <Modify user = {user} />
+        <Show _user = {user} />
+        <Modify modifyUser={this.modifyUser} _user={user} {...this.props} />
       </section>
     )
   }

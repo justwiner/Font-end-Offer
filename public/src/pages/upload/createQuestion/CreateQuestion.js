@@ -59,7 +59,7 @@ class CreateQuestion extends Component {
               : (
                 <Checkbox.Group value={item.answers} style={{ width: '100%' }} onChange={(checkedValues) => { saveCheckbox(checkedValues, index) }}>
                   {
-                    question.options.map((e, i) => {
+                    item.options.map((e, i) => {
                       return (
                         <Checkbox key={i} value={e.value}>{e.label}</Checkbox>
                       )

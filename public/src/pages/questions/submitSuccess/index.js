@@ -61,7 +61,6 @@ class SubmitSuccess extends Component {
   }
   changePaperInfo = (type) => {
     const { paperInfo } = this.state
-    
     switch (type) {
       case 0: paperInfo.like.push('temp'); this.setState({ paperInfo }); break;
       case 1: paperInfo.dislike.push('temp'); this.setState({ paperInfo }); break;

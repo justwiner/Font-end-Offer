@@ -97,7 +97,7 @@ class User extends Component {
         </section>
         <section className="userInfo-right">
           <Route exact path="/user" render={() => <Home />} />
-          <Route exact path="/user/info" render={() => <UserInfo />} />
+          <Route exact path="/user/info" render={() => <UserInfo {...this.props} />} />
           <Route exact path="/user/pass" render={() => <ChangePass {...this.props} />} />
         </section>
       </section>

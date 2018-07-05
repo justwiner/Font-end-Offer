@@ -111,7 +111,7 @@ class QuestionsList extends Component {
                           <tr onClick={() => this.doQuestion(item)} key= {index}>
                             <td>{item.title}</td>
                             <td className="table-clo-center" style={{fontSize: '.7vw'}}>{chapters.find(e => e.id === item.chapter).title}</td>
-                            <td className="table-clo-center" style={{fontSize: '.7vw'}}>{item.createBy.nickName}</td>
+                            <td className="table-clo-center" style={{fontSize: '.7vw'}}>{item.createBy === null ? '未知' : item.createBy.nickName}</td>
                             <td className="table-clo-center" style={style}>{difficultyLevels.find(e => e.id === difficultyLevel).title}</td>
                             <td className="table-clo-center" style={{color: 'lightgrey'}}>{timeago().format(item.createAt, 'zh_CN')}</td>
                             <td className="table-clo-center" style={{color: '#9254de'}}>{item.like.length}</td>

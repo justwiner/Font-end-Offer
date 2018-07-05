@@ -43,7 +43,7 @@ let User_Schema = new mongoose.Schema({
     type: Number
   },
   school: {
-    type: Number
+    type: Array
   },
   expecteCompany: {
     type: String

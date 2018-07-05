@@ -52,6 +52,25 @@ let UserService = (() => {
         return error
       }
     }
+    static async modify (newUser, userId) {
+      try {
+        const {nickName, gender, address, education, school, expecteCompany, graduateTime} = newUser
+        let saveUser = {
+          nickName
+        }
+        if (gender) saveUser = Object.assign({}, { gender }, saveUser)
+        if (address) saveUser = Object.assign({}, { address }, saveUser)
+        if (education) saveUser = Object.assign({}, { education }, saveUser)
+        if (school) saveUser = Object.assign({}, { school }, saveUser)
+        if (expecteCompany) saveUser = Object.assign({}, { expecteCompany }, saveUser)
+        if (graduateTime) saveUser = Object.assign({}, { graduateTime }, saveUser)
+        await User.update({ _id: userId }, saveUser)
+        return { success: true, message: '修改信息成功！' }
+      } catch (e) {
+        console.log(e)
+        return config.error
+      }
+    }
   }
   return UserService
 })()
