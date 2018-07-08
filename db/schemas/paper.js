@@ -28,6 +28,14 @@ let Paper_Schema = new mongoose.Schema({
   dislike: {
     type: Array,
     required: true
+  },
+  likeNum: {
+    type: Number,
+    required: true
+  },
+  dislikeNum: {
+    type: Number,
+    required: true
   }
 }, {
   versionKey: false

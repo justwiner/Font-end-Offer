@@ -30,7 +30,9 @@ const QuestionsService = ( () => {
             createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
             createBy: userId,
             like: [],
-            dislike: []
+            dislike: [],
+            likeNum: 0,
+            dislikeNum: 0
           })
         })
         if (battingType) {
@@ -41,7 +43,9 @@ const QuestionsService = ( () => {
             difficultyLevel: Math.round(difficultyLevels / data.length),
             createBy: userId,
             like: [],
-            dislike: []
+            dislike: [],
+            likeNum: 0,
+            dislikeNum: 0
           })
           await Promise.all(createQuestionsPromise, createPaperPromise)
           return { success: true, message: '上传 试卷 成功，感谢你对社区的贡献！' }
@@ -58,7 +62,13 @@ const QuestionsService = ( () => {
     static async doQuestionsAtOnce (chapter, difficultyLevel, questionNum) {
       try {
         let query     = QuestionNoLoginService.setQuery(chapter, difficultyLevel),
-            questions = await Question.find(query).limit(questionNum)
+            questions = [],
+            dbNum     = await Question.count(query)
+        if (dbNum < questionNum) {
+          questions = await Question.find(query)
+        } else {
+          questions = await Question.find(query).skip(Math.floor(Math.random() * ( dbNum - questionNum ))).limit(questionNum)
+        }
         return {
           success: true,
           message: '自动生成试卷成功！',
@@ -74,7 +84,7 @@ const QuestionsService = ( () => {
       try {
         const result = await Question.find({ '_id': questionId, 'like': { '$in': [userId] } })
         if ( result === null || result.length === 0 ) {
-          await Question.update({ '_id': questionId }, { '$push': {'like' : userId} })
+          await Question.update({ '_id': questionId }, { '$push': {'like' : userId}, $inc: { likeNum: 1 } })
           return {
             success: true,
             message: '谢谢你的支持！'
@@ -94,7 +104,7 @@ const QuestionsService = ( () => {
       try {
         const result = await Question.find({ '_id': questionId, 'dislike': { '$in': [userId] } })
         if ( result === null || result.length === 0 ) {
-          await Question.update({ '_id': questionId }, { '$push': {'dislike' : userId} })
+          await Question.update({ '_id': questionId }, { '$push': {'dislike' : userId}, $inc: { dislike: 1 } })
           return {
             success: true,
             message: '谢谢你的反馈！'

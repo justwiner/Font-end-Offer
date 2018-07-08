@@ -6,7 +6,7 @@ let PaperService = (() => {
       try {
         const result = await Paper.find({ '_id': questionId, 'like': { '$in': [userId] } })
         if ( result === null || result.length === 0 ) {
-          await Paper.update({ '_id': questionId }, { '$push': {'like' : userId} })
+          await Paper.update({ '_id': questionId }, { '$push': {'like' : userId}, $inc: { likeNum: 1 } })
           return {
             success: true,
             message: '谢谢你的支持！'
@@ -26,7 +26,7 @@ let PaperService = (() => {
       try {
         const result = await Paper.find({ '_id': questionId, 'dislike': { '$in': [userId] } })
         if ( result === null || result.length === 0 ) {
-          await Paper.update({ '_id': questionId }, { '$push': {'dislike' : userId} })
+          await Paper.update({ '_id': questionId }, { '$push': {'dislike' : userId}, $inc: { dislikeNum: 1 } })
           return {
             success: true,
             message: '谢谢你的反馈！'

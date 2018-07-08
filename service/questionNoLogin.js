@@ -32,7 +32,7 @@ let QuestionNoLoginService = (() => {
         switch (sortBy) {
           case 0: ;break;
           case 1: sort = Object.assign({}, { createAt: -1 }, sort); break;
-          case 2: sort = Object.assign({}, { like: -1 }, sort); break;
+          case 2: sort = Object.assign({}, { likeNum: -1 }, sort); break;
           default: ;break
         }
         let [ total, questions ] = await Promise.all([
