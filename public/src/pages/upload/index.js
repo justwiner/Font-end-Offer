@@ -13,6 +13,7 @@ class Upload extends Component {
       this.props.history.goBack()
       message.error('请先登录过后，再进行该操作！')
     }
+    document.title = '上传问题'
   }
   render () {
     return (

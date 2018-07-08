@@ -13,6 +13,7 @@ class SubmitSuccess extends Component {
     paperInfo: null
   }
   componentWillMount () {
+    document.title = '测试结果分析'
     const {paperInfo} = this.props.location.state.data
     this.setState ({ paperInfo })
   }

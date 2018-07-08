@@ -24,7 +24,11 @@ class AnalysisInfo extends Component {
     })
   }
   componentWillReceiveProps (nextProps) {
-    const {like, dislike} = nextProps.paperInfo
+    const {paperInfo} = nextProps
+    if (paperInfo === null) {
+      return
+    }
+    const {like, dislike} = paperInfo
     this.setState({
       likeNum: like.length,
       dislikeNum: dislike.length

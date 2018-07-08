@@ -9,6 +9,7 @@ class ChapterClassify extends Component {
     super(props)
   }
   async componentWillMount () {
+    document.title = '题库'
     let {chapters} = this.props.question
     if ( chapters .length === 0 ) {
       const hide = message.loading('正在获取分类..', 0);

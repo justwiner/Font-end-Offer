@@ -66,6 +66,9 @@ const ad = [
 ]
 
 class Home extends Component {
+  componentWillMount () {
+    document.title = 'Front family'
+  }
   render () {
     return (
       <section className="home">

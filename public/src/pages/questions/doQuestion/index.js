@@ -12,11 +12,12 @@ class DoQuestion extends Component {
   }
   async componentWillMount () {
     const data = this.props.location.state;
+    const info = data.data
     if (data.type === 0) {
-      this.setState({ questions: data.data })
+      this.setState({ questions: info })
     } else {
       const loading = message.loading("正在获取试题列表...", 0)
-      const {questions, createAt, createBy, difficultyLevel, like, dislike, title, _id} = data.data
+      const {questions, createAt, createBy, difficultyLevel, like, dislike, title, _id} = info
       this.setState({ paperInfo: { createAt, createBy, difficultyLevel, like, dislike, title, _id } })
       const result = (await QuestionService.getQuestionsByIds(questions)).data
       loading()

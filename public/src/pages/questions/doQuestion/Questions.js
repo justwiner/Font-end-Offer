@@ -85,11 +85,14 @@ class Questions extends Component {
       userAnswers} = this.state
     let options = [],
     answerSheet = {background: 'rgb(41, 189, 185)',color: 'white'},
+    currentQues = questions[currentQuestion],
+    userAnswer  = userAnswers[currentQuestion],
     ifAdvance   = true;
-    if ( userAnswers[currentQuestion] === undefined) {
+    document.title = currentQues.title;
+    if ( userAnswer === undefined) {
       options = null
     } else {
-      options = questions[currentQuestion].type === 0 ? userAnswers[currentQuestion][0] : userAnswers[currentQuestion]
+      options = currentQues.type === 0 ? userAnswer[0] : userAnswer
     }
     if ( userAnswers.length !== questions.length ) {
       ifAdvance = false
@@ -114,21 +117,21 @@ class Questions extends Component {
         </div>
         <div className="doQuestions-questions-content">
           <div className="doQuestions-questions-content-title">
-            { questions[currentQuestion].type === 0 ? '[单选题]' : '[多选题]' }
+            { currentQues.type === 0 ? '[单选题]' : '[多选题]' }
           </div>
           <div className="doQuestions-questions-content-content">
-            <article><pre>{questions[currentQuestion].title}</pre></article>
+            <article><pre>{currentQues.title}</pre></article>
             {
-              questions[currentQuestion].type === 0 ? (
-                <RadioGroup value={options} key={questions[currentQuestion]._id} onChange={(e) => this.setUserAnswer([e.target.value], currentQuestion)}>
+              currentQues.type === 0 ? (
+                <RadioGroup value={options} key={currentQues._id} onChange={(e) => this.setUserAnswer([e.target.value], currentQuestion)}>
                   {
-                    questions[currentQuestion].options.map((item, index) => <Radio key={index} value={item.value}>{item.label}</Radio>)
+                    currentQues.options.map((item, index) => <Radio key={index} value={item.value}>{item.label}</Radio>)
                   }
                 </RadioGroup>
               ) : (
-                <CheckboxGroup value={options} key={questions[currentQuestion]._id} onChange={(checkedValue) => this.setUserAnswer(checkedValue, currentQuestion)}>
+                <CheckboxGroup value={options} key={currentQues._id} onChange={(checkedValue) => this.setUserAnswer(checkedValue, currentQuestion)}>
                   {
-                    questions[currentQuestion].options.map((item, index) => <Checkbox  key={index} value={item.value}>{item.label}</Checkbox>)
+                    currentQues.options.map((item, index) => <Checkbox  key={index} value={item.value}>{item.label}</Checkbox>)
                   }
                 </CheckboxGroup>
               )
@@ -137,12 +140,12 @@ class Questions extends Component {
           <div className="doQuestions-questions-content-option">
               <div>
                 <label>
-                  <Icon type={likeIcon} onClick={() => {this.likeIt(questions[currentQuestion]._id)}}/>
-                  <font>{ questions[currentQuestion].like.length }</font>
+                  <Icon type={likeIcon} onClick={() => {this.likeIt(currentQues._id)}}/>
+                  <font>{ currentQues.like.length }</font>
                 </label>
                 <label>
-                  <Icon type={dislikeIcon} onClick={() => {this.dislikeIt(questions[currentQuestion]._id)}}/>
-                  <font>{ questions[currentQuestion].dislike.length }</font>
+                  <Icon type={dislikeIcon} onClick={() => {this.dislikeIt(currentQues._id)}}/>
+                  <font>{ currentQues.dislike.length }</font>
                 </label>
               </div>
               <div>

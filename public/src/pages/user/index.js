@@ -37,6 +37,7 @@ class User extends Component {
       message.warn('请登录之后，再进入个人中心！')
       this.props.history.push('/')
     }
+    document.title = '个人中心'
     this.setState({ currentMenu: window.location.pathname })
   }
   setCurrentMenu = (path) => {
