@@ -9,6 +9,7 @@
   "private": false,
   "dependencies": {
     "bcrypt": "^2.0.1",
+    "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "http-errors": "^1.6.3",

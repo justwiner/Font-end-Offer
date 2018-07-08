@@ -80,6 +80,15 @@ const QuestionsService = ( () => {
       }
     }
 
+    static async addRecords (type, title, questions, userId) {
+      try {
+        
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
+
     static async likeIt (questionId, userId) {
       try {
         const result = await Question.find({ '_id': questionId, 'like': { '$in': [userId] } })

@@ -2,6 +2,7 @@ const express = require('express')
 const createError = require('http-errors')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
+const compress = require('compression')
 // const passport = require('passport')
 // const Strategy = require('passport-http-bearer').Strategy
 
@@ -16,6 +17,12 @@ const paper = require('./routes/paper')
 
 const app = express()
 
+
+app.use(compress())
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+app.use(cookieParser())
+
 /*
   跨域配置：响应头允许跨域
 */
@@ -26,13 +33,6 @@ app.all('*', (req, res, next) => {
   if(req.method=="OPTIONS") res.send(200);
   else next();
 })
-
-// 
-
-app.use(express.urlencoded({extended: false}))
-app.use(express.json())
-app.use(cookieParser())
-
 
 /*
   API不需要登录即可使用
