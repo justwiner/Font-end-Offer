@@ -11,7 +11,7 @@ let PaperNoLoginService = (() => {
         query = ( currentDifficults.includes(0) || currentDifficults.includes('0') ) ? query : Object.assign({}, { difficultyLevel: {"$in": currentDifficults} }, query)
         query = ( key !== '' ) ? Object.assign({}, { title: new RegExp(key) }, query) : query
         switch (sortBy) {
-          case 0: ;break;
+          case 0: sort = Object.assign({}, { complexValue: -1 }, sort);break;
           case 1: sort = Object.assign({}, { createAt: -1 }, sort); break;
           case 2: sort = Object.assign({}, { likeNum: -1 }, sort); break;
           default: ;break

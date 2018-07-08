@@ -30,7 +30,7 @@ let QuestionNoLoginService = (() => {
         query = QuestionNoLoginService.setQuery(chapter, difficultyLevel)
         query = ( key !== '' ) ? Object.assign({}, { title: new RegExp(key) }, query) : query
         switch (sortBy) {
-          case 0: ;break;
+          case 0: sort = Object.assign({}, { complexValue: -1 }, sort);break;
           case 1: sort = Object.assign({}, { createAt: -1 }, sort); break;
           case 2: sort = Object.assign({}, { likeNum: -1 }, sort); break;
           default: ;break

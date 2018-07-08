@@ -13,6 +13,8 @@ const QuestionsService = ( () => {
         let uuids = []
         let uuid_ = ''
         let difficultyLevels = 0
+        const contributeQues = await Question.find({createBy: userId}, {_id: 1}),
+           contributeQuesNum = contributeQues.length + 1;
         const createQuestionsPromise = data.map(item => {
           const { type, title, options, answers, sort, chapter, difficultyLevel } = item
           uuid_ = uuid.v4()
@@ -32,10 +34,18 @@ const QuestionsService = ( () => {
             like: [],
             dislike: [],
             likeNum: 0,
-            dislikeNum: 0
+            dislikeNum: 0,
+            complexValue: (100 + contributeQuesNum) / 1000
           })
         })
+        const quesResult = await Promise.all(contributeQues.map(item => Question.findOne({_id: item._id}, {likeNum: 1})))
+        const updateQuestionsPromise = contributeQues.map((item, index) => {
+          const newComplexValue = (( quesResult[index].likeNum + 1 ) * 100 + contributeQuesNum) / 1000
+          return Question.where({_id: item._id}).update({ complexValue: newComplexValue  })
+        })
         if (battingType) {
+          const contributePaper = await Paper.find({createBy: userId}, {_id: 1}),
+              contributePaperNum = contributePaper.length + 1;
           const createPaperPromise = Paper.create({
             title: _data.title,
             questions: uuids,
@@ -45,12 +55,18 @@ const QuestionsService = ( () => {
             like: [],
             dislike: [],
             likeNum: 0,
-            dislikeNum: 0
+            dislikeNum: 0,
+            complexValue: (100 + contributePaperNum) / 1000
           })
-          await Promise.all(createQuestionsPromise, createPaperPromise)
+          const paperResult = await Promise.all(contributePaper.map(item => Paper.findOne({_id: item._id}, {likeNum: 1})))
+          const updatePaperPromise = contributePaper.map((item, index) => {
+            const newComplexValue = (( paperResult[index].likeNum + 1 ) * 100 + contributePaperNum) / 1000
+            return Paper.where({_id: item._id}).update({ complexValue: newComplexValue  })
+          })
+          await Promise.all(createQuestionsPromise.concat(updateQuestionsPromise, [createPaperPromise], updatePaperPromise))
           return { success: true, message: '上传 试卷 成功，感谢你对社区的贡献！' }
         } else {
-          await Promise.all(createQuestionsPromise)
+          await Promise.all(createQuestionsPromise.concat(updateQuestionsPromise))
           return { success: true, message: '上传 试题 成功，感谢你对社区的贡献！' }
         }
       } catch (e) {
@@ -93,7 +109,7 @@ const QuestionsService = ( () => {
       try {
         const result = await Question.find({ '_id': questionId, 'like': { '$in': [userId] } })
         if ( result === null || result.length === 0 ) {
-          await Question.update({ '_id': questionId }, { '$push': {'like' : userId}, $inc: { likeNum: 1 } })
+          await Question.update({ '_id': questionId }, { '$push': {'like' : userId}, $inc: { likeNum: 1, complexValue: 0.1 } })
           return {
             success: true,
             message: '谢谢你的支持！'

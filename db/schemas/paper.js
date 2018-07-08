@@ -36,6 +36,10 @@ let Paper_Schema = new mongoose.Schema({
   dislikeNum: {
     type: Number,
     required: true
+  },
+  complexValue: {
+    type: Number,
+    required: true
   }
 }, {
   versionKey: false
