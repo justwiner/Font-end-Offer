@@ -1,6 +1,6 @@
 let PaperService = (() => {
   
-  const Paper = require('../db/mongoose-db').Paper
+  const Paper = require('../../db/mongoose-db').Paper
   class PaperService {
     static async likeIt (questionId, userId) {
       try {

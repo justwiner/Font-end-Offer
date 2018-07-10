@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const PaperService = require('../service/paper')
+const PaperService = require('../../service/qt/paper')
 
 router.post('/likeIt', async (req, res) => {
   const {paperId} = req.body

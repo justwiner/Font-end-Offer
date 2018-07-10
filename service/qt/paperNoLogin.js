@@ -1,8 +1,8 @@
 let PaperNoLoginService = (() => {
-  const Paper = require('../db/mongoose-db').Paper
-  const User = require('../db/mongoose-db').User
+  const Paper = require('../../db/mongoose-db').Paper
+  const User = require('../../db/mongoose-db').User
   const moment = require('moment')
-  const error = require('../config').error
+  const error = require('../../config').error
   class PaperNoLoginService {
     static async getPapers (currentDifficults, sortBy, size, page, key) {
       try {

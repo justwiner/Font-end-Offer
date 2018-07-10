@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const CommonService = require('../service/common')
+const CommonService = require('../../service/qt/common')
 
 router.post('/login',async (req, res, next) => {
   const { eMail, password } = req.body

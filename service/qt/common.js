@@ -1,12 +1,12 @@
 let CommonService = ( ()=> {
 
-  const User = require('../db/mongoose-db').User
+  const User = require('../../db/mongoose-db').User
   const bcrypt = require('bcrypt')
   const moment = require('moment')
   const jwt = require('jsonwebtoken')
   const opn = require('opn')
-  const config = require('../config')
-  const send = require('../lib/email')
+  const config = require('../../config')
+  const send = require('../../lib/email')
   const error = config.error
 
   class CommonService {

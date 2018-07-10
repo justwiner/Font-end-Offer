@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const UserService = require('../service/user')
+const UserService = require('../../service/qt/user')
 
 router.post('/info', (req, res, next) => {
   res.json({success: true, message: 'Api可以使用'})

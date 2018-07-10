@@ -1,5 +1,5 @@
 import config from './config'
-import axios from 'axios'
+import Http from './httpCreate'
 import Cookie from './cookie'
 
 class UserService {
@@ -19,14 +19,10 @@ class UserService {
   }
 
   static get CommonService () {
-    let service = axios.create({
+    let service = Http.create({
       baseURL: `${config.url}/user`,
-      header: {
-        'x-access-token': UserService.token
-      }
+      timeout: config.timeOut
     })
-    service.defaults.headers = { 'x-access-token': UserService.token }
-    service.defaults.timeout = config.timeOut;
     return service
   }
 

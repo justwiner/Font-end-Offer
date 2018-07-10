@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const QuestionService = require('../service/questions')
+const QuestionService = require('../../service/qt/questions')
 
 router.post('/upload', async (req, res) => {
   res.json(await QuestionService.uploadQuestions(req.body, req.user._id))

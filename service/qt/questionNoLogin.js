@@ -1,10 +1,10 @@
 let QuestionNoLoginService = (() => {
 
   const moment = require('moment')
-  const Chapter = require('../db/mongoose-db').Chapter
-  const Question = require('../db/mongoose-db').Question
-  const User = require('../db/mongoose-db').User
-  const error = require('../config').error
+  const Chapter = require('../../db/mongoose-db').Chapter
+  const Question = require('../../db/mongoose-db').Question
+  const User = require('../../db/mongoose-db').User
+  const error = require('../../config').error
   class QuestionNoLoginService {
     static async getChapters () {
       try {

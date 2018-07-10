@@ -1,24 +1,21 @@
-import axios from 'axios'
+import Http from './httpCreate'
 import UserService from './userService'
 import config from './config'
 
 class PaperService {
   static get paperServiceNoLogin () {
-    let service = axios.create({
-      baseURL: `${config.url}/paperN`
+    let service = Http.create({
+      baseURL: `${config.url}/paperN`,
+      timeout: config.timeOut
     })
-    service.defaults.timeout = config.timeOut
     return service
   }
 
   static get paperService () {
-    let service = axios.create({
+    let service = Http.create({
       baseURL: `${config.url}/paper`,
-      headers: {
-        'x-access-token': UserService.token
-      }
+      timeout: config.timeOut
     })
-    service.defaults.timeout = config.timeOut;
 
     return service
   }

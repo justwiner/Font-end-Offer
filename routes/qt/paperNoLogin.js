@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const PaperNoLoginService = require('../service/paperNoLogin')
+const PaperNoLoginService = require('../../service/qt/paperNoLogin')
 
 router.post('/getPapers', async (req, res) => {
   const {currentDifficults, sortBy, size, page, key} = req.body

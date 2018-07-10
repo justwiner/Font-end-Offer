@@ -8,12 +8,13 @@ const compress = require('compression')
 
 const config = require('./config')
 const port = process.env.PORT || config.network.port;
-const commonRouter = require('./routes/common')
-const questionNoLogin = require('./routes/questionNoLogin')
-const userRouter = require('./routes/user')
-const questionRouter = require('./routes/questions')
-const paperNoLogin = require('./routes/paperNoLogin')
-const paper = require('./routes/paper')
+const qtCommonRouter = require('./routes/qt/common')
+const qtQuestionNoLogin = require('./routes/qt/questionNoLogin')
+const qtUserRouter = require('./routes/qt/user')
+const qtQuestionRouter = require('./routes/qt/questions')
+const qtPaperNoLogin = require('./routes/qt/paperNoLogin')
+const qtPaper = require('./routes/qt/paper')
+const qtRecord = require('./routes/qt/record')
 
 const app = express()
 
@@ -37,37 +38,38 @@ app.all('*', (req, res, next) => {
 /*
   API不需要登录即可使用
 */
-app.use('/api/common', commonRouter)
-app.use('/api/questionN', questionNoLogin)
-app.use('/api/paperN', paperNoLogin)
+app.use('/api/qt/common', qtCommonRouter)
+app.use('/api/qt/questionN', qtQuestionNoLogin)
+app.use('/api/qt/paperN', qtPaperNoLogin)
 /*
   API路由处理：拦截验证JWT
 */
-const jwtRouter = express.Router()
-jwtRouter.use((req, res, next) => {
+const qtJwtRouter = express.Router()
+qtJwtRouter.use((req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
   if ( token ) {
     // 解码 token (验证 secret 和检查有效期（exp）)
     jwt.verify(token, config.tokenSet.jwtsecret, (err, decoded) => {
       if (err) {
-        return res.json({ success: false, message: '无效的token！' })
+        return res.status(401).json({ success: false, message: '无效的token！' })
       } else {
         req.user = decoded;
         next();
       }
     })
   } else {
-    return res.status(403).json({ success: false, message: '权限不足，请先登录！' })
+    return res.status(401).json({ success: false, message: '权限不足，请先登录！' })
   }
 })
-app.use('/api', jwtRouter)
+app.use('/api/qt', qtJwtRouter)
 
 /*
   以下API需要登录过后才能访问
 */
-app.use('/api/user', userRouter)
-app.use('/api/question', questionRouter)
-app.use('/api/paper', paper)
+app.use('/api/qt/user', qtUserRouter)
+app.use('/api/qt/question', qtQuestionRouter)
+app.use('/api/qt/paper', qtPaper)
+app.use('/api/qt/record', qtRecord)
 
 app.use(function(req, res, next) {
   next(createError(404));

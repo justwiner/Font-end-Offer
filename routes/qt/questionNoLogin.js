@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const QuestionNoLoginService = require('../service/questionNoLogin')
+const QuestionNoLoginService = require('../../service/qt/questionNoLogin')
 
 router.get('/chapters', async (req, res) => {
   res.json(await QuestionNoLoginService.getChapters())

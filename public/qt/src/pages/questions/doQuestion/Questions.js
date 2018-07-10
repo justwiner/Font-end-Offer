@@ -43,6 +43,7 @@ class Questions extends Component {
     });
   }
   checkAnswer = (answer, questions, time) => {
+    console.log(questions)
     const result = questions.map((item, index) => {
       if (answer[index] === undefined || answer[index].length === 0) {
         return false
@@ -50,7 +51,8 @@ class Questions extends Component {
       return JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort())
     })
     const {paperInfo} = this.props
-    this.props.history.push({pathname: '/questions/analysis', state: { data: { answer, questions, time, result, paperInfo } }})
+    console.log(result)
+    // this.props.history.push({pathname: '/questions/analysis', state: { data: { answer, questions, time, result, paperInfo } }})
   }
   likeIt = async (id) => {
     this.setState({ likeIcon: 'loading' })

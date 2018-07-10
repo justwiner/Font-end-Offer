@@ -1,7 +1,7 @@
 let UserService = (() => {
-  const User = require('../db/mongoose-db').User
+  const User = require('../../db/mongoose-db').User
   const bcrypt = require('bcrypt')
-  const config = require('../config')
+  const config = require('../../config')
   const fs = require('fs')
   const path = require('path')
   class UserService {

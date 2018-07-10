@@ -1,9 +1,9 @@
 const QuestionsService = ( () => {
 
   const moment = require('moment')
-  const Question = require('../db/mongoose-db').Question
-  const Paper = require('../db/mongoose-db').Paper
-  const error = require('../config').error
+  const Question = require('../../db/mongoose-db').Question
+  const Paper = require('../../db/mongoose-db').Paper
+  const error = require('../../config').error
   const uuid = require('node-uuid')
   const QuestionNoLoginService = require('./questionNoLogin')
   class QuestionsService {
@@ -129,7 +129,7 @@ const QuestionsService = ( () => {
       try {
         const result = await Question.find({ '_id': questionId, 'dislike': { '$in': [userId] } })
         if ( result === null || result.length === 0 ) {
-          await Question.update({ '_id': questionId }, { '$push': {'dislike' : userId}, $inc: { dislike: 1 } })
+          await Question.update({ '_id': questionId }, { '$push': {'dislike' : userId}, $inc: { dislikeNum: 1 } })
           return {
             success: true,
             message: '谢谢你的反馈！'

@@ -1,12 +1,12 @@
 import config from './config'
-import axios from 'axios'
+import Http from './httpCreate'
 
 class Service {
   static get CommonService () {
-    let service = axios.create({
-      baseURL: `${config.url}/common`
+    let service = Http.create({
+      baseURL: `${config.url}/common`,
+      timeout: config.timeOut
     })
-    service.defaults.timeout = 12000;
     return service
   }
 

@@ -1,24 +1,21 @@
-import axios from 'axios'
+import Http from './httpCreate'
 import UserService from './userService'
 import config from './config'
 
+
 class QuestionService {
   static get questionServiceNoLogin () {
-    let service = axios.create({
-      baseURL: `${config.url}/questionN`
+    return Http.create({
+      baseURL: `${config.url}/questionN`,
+      timeout: config.timeOut
     })
-    service.defaults.timeout = config.timeOut
-    return service
   }
 
   static get questionService () {
-    let service = axios.create({
+    let service = Http.create({
       baseURL: `${config.url}/question`,
-      headers: {
-        'x-access-token': UserService.token
-      }
+      timeout: config.timeOut
     })
-    service.defaults.timeout = config.timeOut;
 
     return service
   }
