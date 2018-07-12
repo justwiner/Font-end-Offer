@@ -4,6 +4,7 @@ import Config from './config'
 import UserService from './userService'
 import QuestionService from './questionService'
 import PaperService from './paperService'
+import RecordService from './recordService'
 
 export {
   Cookie,
@@ -11,5 +12,6 @@ export {
   Config,
   UserService,
   QuestionService,
-  PaperService
+  PaperService,
+  RecordService
 }

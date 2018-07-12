@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Radio, Icon, Button, Progress, Checkbox, Collapse, Modal, message } from 'antd';
 import {Timer}  from '../../../components'
-import {QuestionService} from '../../../lib'
+import {QuestionService,RecordService} from '../../../lib'
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 const Panel = Collapse.Panel;
@@ -14,7 +14,8 @@ class Questions extends Component {
     likeIcon: 'smile-o',
     dislikeIcon: 'frown-o',
     result: [],
-    time: null
+    time: null,
+    submitLoading: false
   }
   nextQuestion = () => this.goToQuestion(this.state.currentQuestion + 1)
   backQuestion = () => this.goToQuestion(this.state.currentQuestion - 1)
@@ -42,17 +43,20 @@ class Questions extends Component {
       }
     });
   }
-  checkAnswer = (answer, questions, time) => {
-    console.log(questions)
+  checkAnswer = async (answer, questions, time) => {
+    this.setState({submitLoading: true})
     const result = questions.map((item, index) => {
       if (answer[index] === undefined || answer[index].length === 0) {
-        return false
+        return { questionId:item.id, success: false }
       }
-      return JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort())
+      return { questionId:item.id, success: JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort()) }
     })
     const {paperInfo} = this.props
+    console.log(paperInfo)
     console.log(result)
+    await RecordService.saveRecord({type: 1, data: result})
     // this.props.history.push({pathname: '/questions/analysis', state: { data: { answer, questions, time, result, paperInfo } }})
+    this.setState({submitLoading: false})
   }
   likeIt = async (id) => {
     this.setState({ likeIcon: 'loading' })
@@ -84,7 +88,8 @@ class Questions extends Component {
       currentQuestion,
       likeIcon,
       dislikeIcon,
-      userAnswers} = this.state
+      userAnswers,
+      submitLoading} = this.state
     let options = [],
     answerSheet = {background: 'rgb(41, 189, 185)',color: 'white'},
     currentQues = questions[currentQuestion],
@@ -153,8 +158,8 @@ class Questions extends Component {
               <div>
                 {
                   ifAdvance 
-                  ? <Button onClick={this.submit}>交卷</Button> 
-                  : <Button onClick={this.submitAdvance}>提前交卷</Button> 
+                  ? <Button onClick={this.submit} loading={submitLoading}>交卷</Button> 
+                  : <Button onClick={this.submitAdvance} loading={submitLoading}>提前交卷</Button> 
                 }
                 {
                   currentQuestion !== 0 ? <Button onClick={this.backQuestion} type="primary">上一题</Button> : null
