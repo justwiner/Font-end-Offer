@@ -52,11 +52,19 @@ class Questions extends Component {
       return { questionId:item.id, success: JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort()) }
     })
     const {paperInfo} = this.props
-    console.log(paperInfo)
-    console.log(result)
-    await RecordService.saveRecord({type: 1, data: result})
-    // this.props.history.push({pathname: '/questions/analysis', state: { data: { answer, questions, time, result, paperInfo } }})
+    let saveParmas = {type: 1, data: result}
+    if (paperInfo !== null) {
+      saveParmas.type = 0
+      const length = questions.length
+      const correctRate = result.reduce((pre, cur) => cur.success ? (pre + (1 / length)) : pre, 0),
+        paperSaveInfo = {paperId: paperInfo._id, title: paperInfo.title, time, correctRate: (correctRate*100).toFixed(2)}
+      saveParmas = Object.assign({}, {paperSaveInfo}, saveParmas)
+    }
+    console.log(saveParmas)
+    const {success} = (await RecordService.saveRecord(saveParmas)).data
+    success ? {} : message.error('服务器发生了错误，此次做题记录未被保存成功！')
     this.setState({submitLoading: false})
+    this.props.history.push({pathname: '/questions/analysis', state: { data: { answer, questions, time, result, paperInfo } }})
   }
   likeIt = async (id) => {
     this.setState({ likeIcon: 'loading' })

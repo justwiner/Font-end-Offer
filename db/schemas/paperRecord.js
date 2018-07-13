@@ -16,6 +16,18 @@ let PaperRecord_Schema = new mongoose.Schema({
   correctRate: {
     type: Number,
     required: true
+  },
+  result: {
+    type: Array,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
   }
 }, {
   versionKey: false

@@ -1,12 +1,35 @@
 const RecordService = (() => {
   const PaperRecord = require('../../db/mongoose-db').PaperRecord
   const QuesRecord = require('../../db/mongoose-db').QuesRecord
+  const moment = require('moment')
   const error = require('../../config').error
   class RecordService {
-    static async saveRecords (type, data, userId) {
+    static async saveRecords (type, data, paperSaveInfo, userId) {
       try {
-        console.log({type, data, userId})
-        return { success: true, message: '请求成功' }
+        if (type === 0) {
+          const {paperId, title, time, correctRate} = paperSaveInfo
+          await PaperRecord.create({
+            createBy: userId,
+            createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+            paperId,
+            title,
+            time,
+            correctRate,
+            result: data
+          })
+        } else {
+          const quesRecordPromise = data.map(e => {
+            const {questionId, success} = e
+            QuesRecord.create({
+              createBy: userId,
+              createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+              questionId,
+              result: success
+            })
+          })
+          await Promise.all(quesRecordPromise)
+        }
+        return { success: true, message: '记录保存成功' }
       } catch (e) {
         console.log(e)
         return error

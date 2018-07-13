@@ -8,7 +8,7 @@ module.exports = {
   },
   'tokenSet': {
     'jwtsecret': 'fontEndCommunity',
-    'time': 60*60*24
+    'time': 60*60*24*30
   },
   'email': {
     'jwtsecret': 'activation',

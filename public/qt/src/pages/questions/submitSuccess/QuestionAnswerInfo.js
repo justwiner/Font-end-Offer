@@ -19,7 +19,7 @@ class QuestionAnswerInfo extends Component {
               <font>{ userAnswers.length === 0 ? '无' : userAnswers.map(e => OPTION[e] + ' ') }</font>
             </span>
             <span>
-              { result ? <font style={{color: '#52c41a'}}>(正确)</font> : <font style={{color: '#ff7875'}}>(错误)</font> }
+              { result.success ? <font style={{color: '#52c41a'}}>(正确)</font> : <font style={{color: '#ff7875'}}>(错误)</font> }
             </span>
           </div>
           <div className="questions-options-content">

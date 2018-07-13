@@ -20,7 +20,7 @@ class SubmitSuccess extends Component {
   getResults = (result) => {
     let trueNum = 0
     result.forEach(e => {
-      if (e === true) {
+      if (e.success === true) {
         trueNum ++
       }
     });
@@ -94,7 +94,7 @@ class SubmitSuccess extends Component {
               {
                 result.map((e, index) => {
                   let style = {}
-                  style = e ? {background: 'rgb(41, 189, 185)'} : {background: 'rgb(255, 120, 117)'}
+                  style = e.success ? {background: 'rgb(41, 189, 185)'} : {background: 'rgb(255, 120, 117)'}
                   style = (currentQuestion === index) ? Object.assign({}, { height: '2.5vw',lineHeight: '2.5vw' }, style) : style
                   return <li onClick={() => {this.handleClick(index)}} key={index}><span style={style}>{index + 1}</span></li>
                 })
