@@ -25,4 +25,20 @@ router.post('/modify', async (req, res) => {
   res.json(await UserService.modify({nickName, gender, address, education, school, expecteCompany, graduateTime} ,req.user._id))
 })
 
+router.get('/likes', async (req, res) => {
+  res.json(await UserService.likes(req.user._id))
+})
+
+router.get('/dislikes', async (req, res) => {
+  res.json(await UserService.dislikes(req.user._id))
+})
+
+router.get('/contributes', async (req, res) => {
+  res.json(await UserService.contributes(req.user._id))
+})
+
+router.get('/tests', async (req, res) => {
+  res.json(await UserService.tests(req.user._id))
+})
+
 exports = module.exports = router

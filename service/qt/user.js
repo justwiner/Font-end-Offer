@@ -1,5 +1,9 @@
 let UserService = (() => {
   const User = require('../../db/mongoose-db').User
+  const Question = require('../../db/mongoose-db').Question
+  const Paper = require('../../db/mongoose-db').Paper
+  const QuesRecord = require('../../db/mongoose-db').QuesRecord
+  const PaperRecord = require('../../db/mongoose-db').PaperRecord
   const bcrypt = require('bcrypt')
   const config = require('../../config')
   const fs = require('fs')
@@ -66,6 +70,66 @@ let UserService = (() => {
         if (graduateTime) saveUser = Object.assign({}, { graduateTime }, saveUser)
         await User.update({ _id: userId }, saveUser)
         return { success: true, message: '修改信息成功！' }
+      } catch (e) {
+        console.log(e)
+        return config.error
+      }
+    }
+    static async likes (userId) {
+      try {
+        return {
+          success: true,
+          message: 'API未实现',
+        }
+      } catch (e) {
+        console.log(e)
+        return config.error
+      }
+    }
+    static async dislikes (userId) {
+      try {
+        return {
+          success: true,
+          message: 'API未实现',
+        }
+      } catch (e) {
+        console.log(e)
+        return config.error
+      }
+    }
+    static async contributes (userId) {
+      try {
+        const [questions, papers] = await Promise.all([
+          Question.find({createBy: userId}),
+          Paper.find({createBy: userId})
+        ])
+        return {
+          success: true,
+          message: '查询用户贡献信息成功',
+          data: {
+            questions,
+            papers
+          }
+        }
+      } catch (e) {
+        console.log(e)
+        return config.error
+      }
+    }
+    static async tests (userId) {
+      try {
+        const [testQuestions, testPapers] = await Promise.all([
+          QuesRecord.find({createBy: userId}),
+          PaperRecord.find({createBy: userId})
+        ])
+        return {
+          success: true,
+          message: '查询用户做题记录成功',
+          data: {
+            testQuestions,
+            testPapers
+          }
+        }
       } catch (e) {
         console.log(e)
         return config.error

@@ -79,11 +79,45 @@
                 color: rgb(41, 189, 185);
               }
             }
+            .likes-list {
+              letter-spacing: normal;
+              p, span {
+                border-bottom: 1px solid #eee;
+                padding: .5vw 0;
+                margin: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: .8vw;
+                transition: all .3s;
+                font:first-child {
+                  width: 50%;
+                  margin-left: 1vw;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+                font:nth-child(2) {
+                  width: 15%;
+                  color: #b9c9d1;
+                }
+                font:last-child {
+                  width: 15%;
+                  margin-right: 1vw;
+                }
+                font:nth-child(2), font:last-child {
+                  display: flex;
+                  justify-content: flex-end;
+                }
+              }
+              p:hover {
+                background: rgba(41, 189, 185, 0.1);
+              }
+            }
           }
           section:hover {
             border: 1px solid rgba(41, 189, 185, .7);
             box-shadow: 0 0px 3px rgba(41, 189, 185, .3);
-            transform: scale(1.05)
           }
         }
       }

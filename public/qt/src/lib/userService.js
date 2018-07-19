@@ -41,6 +41,14 @@ class UserService {
   static async modify (data) {
     return await UserService.CommonService.post('/modify', data)
   }
+
+  static async contributes () {
+    return await UserService.CommonService.get('/contributes')
+  }
+
+  static async tests () {
+    return await UserService.CommonService.get('/tests')
+  }
 }
 
 export default UserService;
