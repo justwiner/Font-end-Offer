@@ -114,6 +114,24 @@
                 background: rgba(41, 189, 185, 0.1);
               }
             }
+            .contribute-list {
+              p, span {
+                font:first-child {
+                  width: 50%;
+                }
+                font:nth-child(2) {
+                  width: 15%;
+                }
+                font:last-child {
+                  width: 35%;
+                }
+              }
+              p {
+                font:last-child {
+                  color: grey;
+                }
+              }
+            }
           }
           section:hover {
             border: 1px solid rgba(41, 189, 185, .7);

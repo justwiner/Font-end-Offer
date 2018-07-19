@@ -162,7 +162,7 @@ class Home extends Component {
             </section>
             <section>
               <article>{contributeNum}　次贡献<Icon type="upload" /></article>
-              <div className="likes-list">
+              <div className="likes-list contribute-list">
                 <span>
                   <font>标题</font>
                   <font style={{color:'rgba(0, 0, 0, 0.65)'}}>类型</font>
