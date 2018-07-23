@@ -47,9 +47,9 @@ class Questions extends Component {
     this.setState({submitLoading: true})
     const result = questions.map((item, index) => {
       if (answer[index] === undefined || answer[index].length === 0) {
-        return { questionId:item.id, success: false }
+        return { questionId:item.id, success: false, title: item.title }
       }
-      return { questionId:item.id, success: JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort()) }
+      return { questionId:item.id, success: JSON.stringify(answer[index].sort()) === JSON.stringify(item.answers.sort()), title: item.title }
     })
     const {paperInfo} = this.props
     let saveParmas = {type: 1, data: result}
@@ -60,7 +60,6 @@ class Questions extends Component {
         paperSaveInfo = {paperId: paperInfo._id, title: paperInfo.title, time, correctRate: (correctRate*100).toFixed(2)}
       saveParmas = Object.assign({}, {paperSaveInfo}, saveParmas)
     }
-    console.log(saveParmas)
     const {success} = (await RecordService.saveRecord(saveParmas)).data
     success ? {} : message.error('服务器发生了错误，此次做题记录未被保存成功！')
     this.setState({submitLoading: false})

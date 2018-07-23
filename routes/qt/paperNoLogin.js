@@ -16,4 +16,9 @@ router.post('/getDislike', async (req, res) => {
   res.json(await PaperNoLoginService.getDislike(paperId))
 })
 
+router.post('/papersByIds', async (req, res) => {
+  const {ids} = req.body
+  res.json(await PaperNoLoginService.getPapersByIds(ids))
+})
+
 exports = module.exports = router

@@ -16,6 +16,10 @@ let QuesRecord_Schema = new mongoose.Schema({
   result: {
     type: Boolean,
     required: true
+  },
+  title: {
+    type: String,
+    required: true
   }
 }, {
   versionKey: false

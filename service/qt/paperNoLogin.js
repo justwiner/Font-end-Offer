@@ -60,6 +60,23 @@ let PaperNoLoginService = (() => {
         return error
       }
     }
+    static async getPapersByIds (ids) {
+      try {
+        const papersPromise = ids.map(e => Paper.findOne({ _id: e }))
+        let papers = await Promise.all(papersPromise)
+        let creatersPromise = papers.map(item => User.findOne({ _id: item.createBy })),
+            creaters        = await Promise.all(creatersPromise);
+            papers          = papers.map((item, index) => Object.assign({}, item._doc, {createBy: creaters[index], createAt: moment(item._doc.createAt).format('YYYY-MM-DD HH:mm:ss')}))
+        return {
+          success: true,
+          message: '获取试卷成功!',
+          papers
+        }
+      } catch (e) {
+        console.log(e)
+        return error
+      }
+    }
   }
   return PaperNoLoginService
 })()

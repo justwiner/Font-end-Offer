@@ -19,12 +19,13 @@ const RecordService = (() => {
           })
         } else {
           const quesRecordPromise = data.map(e => {
-            const {questionId, success} = e
+            const {questionId, success, title} = e
             QuesRecord.create({
               createBy: userId,
               createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
               questionId,
-              result: success
+              result: success,
+              title
             })
           })
           await Promise.all(quesRecordPromise)

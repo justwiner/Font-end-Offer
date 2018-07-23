@@ -32,6 +32,10 @@ class PaperService {
     return await PaperService.paperServiceNoLogin.post('/getDislike', {paperId})
   }
 
+  static async getPapersByIds (ids) {
+    return await PaperService.paperServiceNoLogin.post('/papersByIds', {ids})
+  }
+
   static async likeIt (paperId) {
     return await PaperService.paperService.post('/likeIt', {paperId})
   }
