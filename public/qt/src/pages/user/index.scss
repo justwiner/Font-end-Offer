@@ -57,6 +57,19 @@
           padding-bottom: .5vw;
           width: 5%;
           margin-bottom: 1vw;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          font:last-child {
+            font-weight: normal;
+            font-size: .7vw;
+            color: lightgrey;
+            transition: all .3s;
+          }
+          font:last-child:hover {
+            color: grey;
+            cursor: pointer;
+          }
         }
         &-content {
           display: flex;
@@ -70,7 +83,6 @@
             padding: .5vw 1vw;
             border: 1px solid transparent;
             transition: all .3s;
-            cursor: pointer;
             article {
               width: 100%;
               letter-spacing: normal;
@@ -111,6 +123,7 @@
                 }
               }
               p:hover {
+                cursor: pointer;
                 background: rgba(41, 189, 185, 0.1);
                 font:first-child{
                   color: #28beb8;
